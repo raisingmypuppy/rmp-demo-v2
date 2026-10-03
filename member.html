@@ -4,36 +4,35 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>Your Puppy Helper | Raising My Puppy · Member Demo</title>
+  <meta name="theme-color" content="#061b34">
+  <title>Your Puppy Helper | Raising My Puppy</title>
   <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/sections.css">
-  <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/member.css">
+  <script src="js/member-data.js" defer></script>
+  <script src="js/member-planner.js" defer></script>
   <script src="js/member.js" defer></script>
 </head>
 <body class="member-page">
-  <a class="member-skip" href="#member-main">Skip to Puppy Helper</a>
-  <div class="member-review" aria-label="Demo review controls">
-    <span>MEMBER EXPERIENCE <span class="review-detail">· Interactive preview · Changes reset on reload</span></span>
-    <div><button type="button" id="preview-setup">Preview setup</button><label for="demo-state">Demo state</label><select id="demo-state"><option value="available">First session available</option><option value="used">First session used</option><option value="active" selected>Active member</option></select></div>
-  </div>
-  <div class="approved-experience member-shell">
+  <a class="skip-link" href="#helper-question">Skip to Puppy Helper</a>
+  <details class="demo-controls" id="demo-controls">
+    <summary>INTERACTIVE MEMBER PREVIEW <span>Demo controls +</span></summary>
+    <div class="demo-options">
+      <label>Membership<select id="demo-state"><option value="active">Active member</option><option value="available">First free session available</option><option value="used">First free session used</option></select></label>
+      <label>Puppy context<select id="demo-profile"><option value="sample">Sample profile with photo</option><option value="empty">No profile or photo</option><option value="no-photo">Profile without photo</option><option value="multiple">Multiple puppies</option></select></label>
+      <p>Static preview. Sample replies and voice input. Photos, profiles, conversations and guides stay in this visit and reset on reload. No sign-in, AI or payment.</p>
+    </div>
+  </details>
+  <div class="member-shell">
     <header class="member-header">
-      <a href="#helper" class="member-wordmark" data-view="helper">Raising My Puppy</a>
-      <nav aria-label="Member navigation">
-        <a href="#helper" data-view="helper" aria-current="page">Puppy Helper</a>
-        <a href="#dogs" data-view="dogs">My Dogs</a>
-        <a href="#saved" data-view="saved">Saved</a>
-        <a href="#planner" data-view="planner">Puppy Planner</a>
-        <button type="button" data-action="account">Account <span aria-hidden="true">↗</span></button>
-      </nav>
+      <a href="./" class="wordmark" aria-label="Raising My Puppy public home">Raising My Puppy<span>HELP FOR REAL LIFE WITH YOUR PUPPY</span></a>
+      <button type="button" class="account-button" data-action="account">Account <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/></svg></button>
     </header>
-    <main id="member-main" tabindex="-1"></main>
-    <footer class="member-footer"><span>Raising My Puppy</span><span>A place to come back to, as life with your puppy changes.</span></footer>
+    <main id="member-main"></main>
+    <footer class="member-footer"><span class="footer-brand">Raising My Puppy</span><p>Your conversations, guides and puppy details are in <button class="text-link" data-action="account">Account ↗</button></p></footer>
   </div>
-  <dialog id="member-dialog" class="member-dialog" aria-labelledby="dialog-title"><button type="button" class="dialog-close" aria-label="Close dialog">×</button><div id="dialog-content"></div></dialog>
-  <div id="member-status" class="member-status" role="status" aria-live="polite"></div>
-  <noscript><p>This interactive member preview needs JavaScript enabled.</p></noscript>
+  <dialog id="member-dialog" aria-labelledby="dialog-title"><button type="button" class="dialog-close" aria-label="Close panel">×</button><div id="dialog-content"></div></dialog>
+  <div id="member-status" role="status" aria-live="polite"></div>
+  <div id="print-area"></div>
+  <noscript><p class="noscript">Enable JavaScript to use this interactive member preview.</p></noscript>
 </body>
 </html>

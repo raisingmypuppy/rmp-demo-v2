@@ -1,241 +1,181 @@
-/* Static member demo. All changes exist only in memory for this page visit.
-   No storage, authentication, AI, email, payment, or external requests. */
+/* Round 4B member experience. In-memory demo only; no network or persistent storage. */
 (() => {
   'use strict';
-  const $ = (selector, root = document) => root.querySelector(selector);
-  const main = $('#member-main');
-  const dialog = $('#member-dialog');
-  const dialogContent = $('#dialog-content');
-  const stateControl = $('#demo-state');
-  const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const winniePhoto = 'assets/images/winnie-hero.png';
-  const state = {
-    membership: 'active', view: 'helper', topic: 'work', profileReady: true,
-    dogs: [{name:'Winnie', breed:'Bernedoodle', gender:'Female', birthdate:'', estimated:false, photo:winniePhoto}],
-    draft:'', photo:'', formPhoto:'', sessionSaved:true, guideChecks:[false,false,false], guideNotes:'',
-    planner:0, edition:'color', dialogOrigin:null
-  };
-  const plannerPages = [
-    ['Potty Training Roadmap','potty-training-roadmap.png'],
-    ['Weekly Puppy Routine Tracker','weekly-puppy-routine-tracker.png'],
-    ['Puppy-Proofing Checklist','puppy-proofing-checklist.png'],
-    ['Your Puppy’s First Week','your-puppys-first-week.png'],
-    ['People & Handling','people-and-handling.png'],
-    ['Training Log','training-log.png']
-  ];
-  const conversations = {
-    work: {
-      title:'Settling while I work', subtitle:'Pick up where you left off',
-      question:'Winnie is my 5-month-old female Bernedoodle and I work from home. If I put her in the playpen where she can see me, she barks and loses her mind. Weirdly, if I leave the room, she settles faster. What am I doing wrong?',
-      answer:'Seeing you but not being able to reach you may actually be harder for Winnie than having you out of sight. Since she settles faster when you leave the room, use that as your starting point.',
-      steps:[['Use short out-of-sight work blocks first.','Start where Winnie settles faster, instead of making her practice the harder version from the outset.'],['Give her something specific to do when you leave.','Offer a stuffed toy, chew, or quiet activity before stepping away.'],['Practice seeing you separately.','Begin with a few seconds before barking starts, then gradually increase the time.']]
-    },
-    tired: {
-      title:'Why she gets wild when tired', subtitle:'Your conversation, saved.',
-      question:'Winnie gets bitey and races around the room in the evening, even after a busy day. More play seems to make it worse. What should I try?',
-      answer:'The pattern is useful: more activity is winding Winnie up instead of helping her settle. Try a quieter end to the day and look at how long she has been awake.',
-      steps:[['Start winding down earlier.','Note when the biting starts and begin a quieter routine before that point.'],['Make the next activity predictable.','Offer a potty break, then a quiet place to rest with fewer distractions.'],['Track the pattern.','Record awake time and what helped her settle, so you can adjust the next evening.']]
-    }
-  };
-  const icons = {
-    photo:'<path d="m8 12 5-5a3 3 0 0 1 4 4l-7 7a5 5 0 0 1-7-7l8-8"/><path d="m6 14 7-7"/>',
-    mic:'<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/>',
-    arrow:'<path d="M5 12h14m-6-6 6 6-6 6"/>',
-    guide:'<path d="M6 2h8l4 4v16H6zM14 2v5h4M9 11h6M9 15h6M9 19h4"/>'
-  };
-  const icon = name => `<svg class="member-icon" viewBox="0 0 24 24" aria-hidden="true">${icons[name]}</svg>`;
-  const primary = (text, action, extra = '') => `<button type="button" class="approved-gold-button member-primary" data-action="${action}" ${extra}>${text} <span aria-hidden="true">→</span></button>`;
-  const isMember = () => state.membership === 'active';
-  function toast(text) {
-    $('#member-status').textContent = text;
-    clearTimeout(toast.timer);
-    toast.timer = setTimeout(() => { $('#member-status').textContent = ''; }, 4200);
+  const $=(selector,root=document)=>root.querySelector(selector);
+  const main=$('#member-main'),dialog=$('#member-dialog'),panel=$('#dialog-content');
+  const planner=window.RMPMemberPlanner;
+  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const samplePhoto='assets/images/winnie-hero.png';
+  const guest={id:'guest',name:'',history:[],guides:[]};
+  const state={dogs:window.RMPMemberData.samples(),active:'winnie',membership:'active',draft:'',attachment:'',current:null,origin:null,panel:'',profileMode:'sample',edition:'color',page:1,guide:null,urls:new Set()};
+  const puppy=()=>state.dogs.find(d=>d.id===state.active)||guest;
+  const member=()=>state.membership==='active';
+  const icon=name=>`<svg viewBox="0 0 24 24" aria-hidden="true">${({photo:'<rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="8" cy="10" r="1.5"/><path d="m4 18 5-5 4 4 3-3 4 4"/>',mic:'<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/>',arrow:'<path d="M5 12h14m-6-6 6 6-6 6"/>'})[name]}</svg>`;
+  const gold=(label,action,extra='')=>`<button type="button" class="gold-button" data-action="${action}" ${extra}>${esc(label)} <span aria-hidden="true">→</span></button>`;
+  const back=()=>'<button type="button" class="panel-back" data-action="account">← Account</button>';
+  const details=d=>[age(d),d.gender,d.breed].filter(Boolean).join(' · ');
+  function age(d){
+    if(!d.birthdate)return d.sampleAge||'';
+    const b=new Date(d.birthdate+'T12:00:00'),n=new Date();
+    const m=(n.getFullYear()-b.getFullYear())*12+n.getMonth()-b.getMonth()-(n.getDate()<b.getDate()?1:0);
+    return m<1?'Under 1 month':m<12?`${m} month${m===1?'':'s'}`:`${Math.floor(m/12)} year${Math.floor(m/12)===1?'':'s'}`;
   }
-  function age(dog) {
-    if (!dog.birthdate) return dog.name === 'Winnie' ? '5 months' : 'Birthdate not added';
-    const born = new Date(dog.birthdate+'T12:00:00'), now = new Date();
-    let months = (now.getFullYear()-born.getFullYear())*12 + now.getMonth()-born.getMonth();
-    if (now.getDate()<born.getDate()) months--;
-    if (months<1) return 'Under 1 month';
-    if (months<12) return `${months} month${months===1?'':'s'}`;
-    const years = Math.floor(months/12);
-    return `${years} year${years===1?'':'s'}`;
+  function toast(message){const output=dialog.open?$('#panel-status'):$('#member-status');if(output)output.textContent=message;clearTimeout(toast.timer);toast.timer=setTimeout(()=>{if(output)output.textContent='';},4300);}
+  function memory(d){
+    const recent=d.history[0];
+    if(recent)return {heading:recent.prompt||'Want to pick up where we left off?',copy:recent.memory||`Last time, we talked about “${recent.title}”. Tell me what happened since.`};
+    return {heading:'What can I help you with today?',copy:d.name?`Tell me exactly what happened with ${d.name}. We’ll work out the next step.`:'Tell me exactly what happened. I’ll help you figure out what to do.'};
   }
-  const dogLine = dog => `${age(dog)} · ${dog.gender} · ${dog.breed}`;
-  function updateNavigation() {
-    document.querySelectorAll('.member-header [data-view]').forEach(link => {
-      const current = link.dataset.view === (state.view==='thread'?'helper':state.view);
-      if (current) link.setAttribute('aria-current','page'); else link.removeAttribute('aria-current');
-    });
-    stateControl.value = state.membership;
+  function switcher(d){return `<div class="puppy-switch"><button type="button" class="puppy-toggle" id="puppy-toggle" aria-expanded="false" aria-controls="puppy-menu"><strong>${esc(d.name||'Your puppy')}</strong><span class="chevron" aria-hidden="true">▾</span>${d.sample?'<span class="sample-label">SAMPLE PROFILE</span>':''}<small>${esc(d.name?details(d):'Add a name. Make this yours.')}</small></button><div class="puppy-menu" id="puppy-menu" hidden><div role="group" aria-label="Active puppy">${state.dogs.map(p=>`<button type="button" data-puppy="${p.id}" aria-pressed="${p.id===d.id}"><span class="initial" aria-hidden="true">${esc(p.name[0])}</span><span>${esc(p.name)}<small>${esc(details(p))}${p.sample?' · Sample':''}</small></span></button>`).join('')}</div><button type="button" class="add-puppy" data-action="add-puppy">+ ${state.dogs.length?'Add another puppy':'Add your puppy'}</button></div></div>`;}
+  function composer(){return `<form class="composer" id="helper-form"><div id="attachment-preview">${attachmentHTML()}</div><label class="sr-only" for="helper-question">Tell the Puppy Helper what happened</label><textarea id="helper-question" placeholder="What’s going on with your puppy?" maxlength="3000" rows="2">${esc(state.draft)}</textarea><div class="composer-toolbar"><div class="composer-tools"><button type="button" class="icon-button" data-action="attach" aria-label="Attach a photo">${icon('photo')}</button><button type="button" class="icon-button" data-action="voice" aria-label="Try voice input">${icon('mic')}</button></div><button type="submit" class="send-button" id="send-question" ${!state.draft.trim()?'disabled':''}>Send ${icon('arrow')}</button></div><input type="file" id="composer-photo" accept="image/jpeg,image/png,image/webp,image/gif" hidden></form>`;}
+  function attachmentHTML(){return state.attachment?`<div class="composer-attachment"><img src="${esc(state.attachment)}" alt="Photo attached to your question"><span>Photo attached</span><button type="button" data-action="remove-attachment">Remove</button></div>`:'';}
+  function render(){
+    const d=puppy(),m=memory(d),photo=d.photo||samplePhoto;
+    main.innerHTML=`<section class="member-hero ${d.photo&&!d.sample?'is-upload':''}" aria-labelledby="helper-title"><img class="hero-photo" src="${esc(photo)}" alt="${d.photo?esc(d.name)+(d.sample?', sample puppy':''):"Winnie, the sample puppy standing in until you add a photo"}" fetchpriority="high"><div class="hero-shade"></div><div class="hero-content">${switcher(d)}<span class="eyebrow">Puppy Helper</span><h1 id="helper-title">${esc(m.heading)}</h1><p class="hero-memory">${esc(m.copy)}</p>${composer()}<p class="composer-footnote">Add a photo to show me the setup, or use the mic to talk it through.</p>${state.membership==='available'?'<p class="free-note">Your first session is on us.</p>':state.membership==='used'?'<p class="free-note">Your first session is complete. <button type="button" data-action="membership">Keep the help going →</button></p>':''}</div><div class="hero-caption ${!d.photo?'fallback':''}">${d.photo?`<span class="photo-name">${esc(d.name)}</span><p>${esc(details(d))}${d.sample?' · Sample puppy':''}</p><button type="button" class="photo-action" data-action="edit-active">${d.sample?'Make this yours':'Change photo'}</button>`:`<span class="photo-name">Winnie’s keeping your spot.</span><p>Add your puppy’s photo and they’ll take Winnie’s place here.</p><button type="button" class="photo-action" data-action="edit-active">Add ${d.name?esc(d.name)+'’s':'your puppy’s'} photo ↗</button>`}</div></section><section class="conversation-section" id="conversation" ${!state.current?'hidden':''} aria-labelledby="conversation-title"><div class="section-inner conversation-inner" id="conversation-content"></div></section><section class="recent-section" aria-labelledby="recent-title"><div class="section-inner"><div class="section-heading"><h2 id="recent-title">Where we left off</h2><span class="eyebrow">${d.name?'Just for '+esc(d.name):'Your latest conversations'}</span></div><ul class="recent-list">${d.history.slice(0,3).map((c,i)=>`<li><button type="button" data-conversation="${c.id}"><span><strong>${esc(c.title)}</strong><small>${esc(i===0?'Pick up where you left off':c.subtitle||'Your conversation, saved.')}</small></span><span class="row-arrow" aria-hidden="true">↗</span></button></li>`).join('')}</ul>${!d.history.length?'<p class="empty-note">Your next conversation starts above. Come back here to pick it up.</p>':''}<p class="recent-note">Your full conversation history is in <button type="button" class="text-link" data-action="history">Account ↗</button></p></div></section><section class="planner-reminder" aria-labelledby="planner-reminder-title"><div><span class="eyebrow">Included with your membership</span><h2 id="planner-reminder-title">Have you printed your free planner yet?</h2><p>Your Puppy Planner includes 30+ printable pages in full-color and printer-friendly versions.</p>${gold('Open my Puppy Planner','planner')}</div><div class="planner-art" aria-label="Puppy Planner cover and sample page"><div class="planner-cover"><span>RAISING MY PUPPY</span><strong>The Puppy<br>Planner</strong><small>Little steps.<br>A whole lot of progress.</small></div><img src="assets/planner/weekly-puppy-routine-tracker.png" alt="Weekly Puppy Routine Tracker sample page" loading="lazy"></div></section>`;
+    if(state.current)renderConversation(false);
+    $('#demo-state').value=state.membership;$('#demo-profile').value=state.profileMode;
+    resizeComposer();updateMotion();
   }
-  function go(view, focus = true) {
-    state.view = view;
-    clearTimeout(toast.timer);
-    $('#member-status').textContent = '';
-    if (view==='setup') state.formPhoto='';
-    render();
-    if (focus) { main.focus({preventScroll:true}); window.scrollTo({top:0,behavior:'instant'}); }
+  function resizeComposer(){const el=$('#helper-question');if(el){el.style.height='72px';el.style.height=Math.min(210,Math.max(72,el.scrollHeight))+'px';}}
+  function renderConversation(scroll=true){
+    const c=state.current,d=puppy();if(!c)return;
+    $('#conversation').hidden=false;
+    $('#conversation-content').innerHTML=`<div class="conversation-heading"><h2 id="conversation-title" tabindex="-1">${esc(c.title)}</h2><button type="button" class="text-link" data-action="new-question">Something new ↗</button></div><div class="thread-body reveal"><p class="question-line">${esc(c.question)}</p>${c.photo?`<img class="question-photo" src="${esc(c.photo)}" alt="Photo you attached to this conversation">`:''}<div class="reply-label"><span class="helper-monogram" aria-hidden="true">ph</span><span>Puppy Helper${c.sample?' · Example reply':' · Preview reply'}</span></div><p class="reply-text">${esc(c.answer)}</p><ol class="response-steps">${c.steps.map(([title,copy])=>`<li><div><strong>${esc(title)}</strong>${esc(copy)}</div></li>`).join('')}</ol><div class="action-row reply-actions">${gold(d.name?`Make ${d.name}’s step-by-step guide`:'Make my step-by-step guide','make-guide')}<button type="button" class="text-link" data-action="save-conversation">${c.saved?'Conversation saved ✓':'Save conversation'}</button><button type="button" class="text-link" data-action="follow-up">Follow up ↗</button></div><p class="reply-hint">${c.sample?'An example session you can turn into a guide.':'Static preview: this reply demonstrates the flow. It does not analyze your text or photo.'}</p></div>`;
+    if(scroll){$('#conversation-title').focus({preventScroll:true});$('#conversation').scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});}
   }
-  function render() {
-    updateNavigation();
-    if (state.view==='setup') main.innerHTML=setup();
-    else if (state.view==='dogs') main.innerHTML=dogsView();
-    else if (state.view==='saved') main.innerHTML=savedView();
-    else if (state.view==='planner') main.innerHTML=plannerView();
-    else if (state.view==='thread') main.innerHTML=threadView();
-    else main.innerHTML=home();
-    const composer=$('#helper-question');
-    if (composer) { composer.value=state.draft; $('#member-send').disabled=!state.draft.trim(); }
+  function openPanel(html,type='standard'){
+    if(!dialog.open)state.origin=document.activeElement;
+    dialog.className=type==='account'?'account-tray':'';
+    panel.innerHTML=html+'<p id="panel-status" role="status" aria-live="polite"></p>';
+    if(!dialog.open)dialog.showModal();
+    document.body.style.overflow='hidden';dialog.scrollTop=0;$('.dialog-close').focus({preventScroll:true});
   }
-  function dogContext() {
-    const dog=state.dogs[0];
-    return `<div class="member-context"><button class="dog-context" data-view="dogs" aria-label="View ${escape(dog.name)}’s dog profile">${dog.photo?`<img src="${escape(dog.photo)}" alt="${escape(dog.name)}">`:`<span class="dog-placeholder" aria-hidden="true">${escape(dog.name[0])}</span>`}<span><strong>${escape(dog.name)} <span aria-hidden="true">⌄</span></strong><small>${escape(dogLine(dog))}</small></span></button><span class="member-state-note">${isMember()?'Unlimited Puppy Helper':state.membership==='available'?'One session on us':'First session used'}</span></div>`;
+  function closePanel(){dialog.close();}
+  dialog.addEventListener('close',()=>{document.body.style.overflow='';const origin=state.origin?.isConnected?state.origin:$('#puppy-toggle');origin?.focus({preventScroll:true});});
+  function account(){state.panel='account';const d=puppy();openPanel(`<span class="eyebrow">Your Account</span><h2 id="dialog-title">Everything you’ve<br>kept along the way.</h2><p class="account-context">${esc(d.name||'Your puppy')}${d.name?' · '+esc(details(d)):''}</p><div class="account-links"><button data-action="profiles">Puppy profiles <span>↗</span></button><button data-action="history">Conversation history <span>↗</span></button><button data-action="guides">Your step-by-step guides <span>↗</span></button><button data-action="planner">Puppy Planner <span>↗</span></button><button data-action="membership">Membership & settings <span>↗</span></button></div><p>${member()?'Active membership · Help whenever you need it.':state.membership==='available'?'Your first session is on us.':'Your first free session is complete.'}</p>`,'account');}
+  function profiles(){state.panel='profiles';openPanel(`${back()}<span class="eyebrow">Puppy profiles</span><h2 id="dialog-title">Who’s keeping you busy?</h2><ul class="overlay-list">${state.dogs.map(d=>`<li><button data-edit="${d.id}"><span><strong>${esc(d.name)}${d.sample?' · Sample profile':''}</strong><small>${esc(details(d))}${d.id===state.active?' · Active puppy':''}</small></span><span class="row-arrow">↗</span></button></li>`).join('')}</ul>${!state.dogs.length?'<p>Add your puppy’s name and photo to make the Helper yours.</p>':''}<div class="action-row">${gold(state.dogs.length?'Add another puppy':'Add your puppy','add-puppy')}</div>`);}
+  function editProfile(id=null){
+    state.panel='profile';const d=state.dogs.find(x=>x.id===id)||{};
+    openPanel(`${back()}<span class="eyebrow">${d.name?'Puppy details':'Your puppy'}</span><h2 id="dialog-title">${d.sample?'Make this yours.':d.name?`A little about ${esc(d.name)}.`:'Let’s meet your puppy.'}</h2><form id="profile-form" data-id="${esc(id||'')}" class="profile-form"><label>Puppy’s name<input name="name" value="${esc(d.sample?'':d.name)}" placeholder="Name" required maxlength="50" autocomplete="off"></label><div class="form-columns"><label>Birthdate or best estimate<input name="birthdate" type="date" value="${esc(d.birthdate)}" max="${new Date().toLocaleDateString('en-CA')}" required></label><label>Gender<select name="gender" required><option value="">Choose</option>${['Female','Male','Unknown'].map(g=>`<option ${g===d.gender?'selected':''}>${g}</option>`).join('')}</select></label></div><label>Breed or mix<input name="breed" value="${esc(d.sample?'':d.breed)}" placeholder="Breed or mix" maxlength="70" required></label><label>Photo<input name="photo" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></label><div id="profile-photo-preview" class="photo-form-preview">${d.photo&&!d.sample?`<img src="${esc(d.photo)}" alt="Current puppy photo"><span>Your current photo</span>`:'Choose a photo for the hero, or add it later.'}</div><div class="action-row"><button type="submit" class="gold-button">Save puppy details <span aria-hidden="true">→</span></button></div><p class="panel-note">Your changes stay in this preview until the page reloads.</p></form>`);
+    $('#profile-form').photoURL=d.photo&&!d.sample?d.photo:'';
   }
-  function composer() {
-    return `<form id="helper-form" class="member-composer" aria-label="Puppy Helper preview"><label class="sr-only" for="helper-question">What’s going on with ${escape(state.dogs[0].name)} today?</label><textarea id="helper-question" placeholder="Tell the Puppy Helper what’s happening…" maxlength="3000" rows="3"></textarea>${state.photo?`<div class="member-photo-preview"><img src="${escape(state.photo)}" alt="Your attached photo preview"><button type="button" data-action="remove-photo">Remove photo</button></div>`:''}<div class="composer-toolbar"><div class="composer-tools"><button type="button" data-action="attach" aria-label="Attach a photo">${icon('photo')}</button><button type="button" aria-label="Voice input preview" aria-disabled="true" title="Voice input preview">${icon('mic')}</button><input type="file" id="composer-photo" accept="image/*" hidden></div><button type="submit" class="composer-send" id="member-send" aria-label="Send question">${icon('arrow')}</button></div></form><div class="member-example"><span>Try a sample:</span><button data-topic="work">Settling while I work</button><button data-topic="tired">Wild when tired</button></div><p class="member-composer-note">Demo: Send opens a sample conversation. Questions and photos stay in this page.</p>`;
+  function history(){state.panel='history';const d=puppy();openPanel(`${back()}<span class="eyebrow">${esc(d.name||'Your puppy')} · Conversation history</span><h2 id="dialog-title">Pick up the conversation.</h2><ul class="overlay-list">${d.history.map(c=>`<li><button data-conversation="${c.id}"><span><strong>${esc(c.title)}</strong><small>${c.saved?'Saved conversation':'This visit'}${c.sample?' · Sample':''}</small></span><span class="row-arrow">↗</span></button></li>`).join('')}</ul>${!d.history.length?'<p>Your conversations will appear here after you send your first question.</p>':''}`);}
+  function guides(){state.panel='guides';const d=puppy();openPanel(`${back()}<span class="eyebrow">${esc(d.name||'Your puppy')} · Saved guides</span><h2 id="dialog-title">The next steps, ready.</h2><ul class="overlay-list">${d.guides.map(g=>`<li><button data-guide="${g.id}"><span><strong>${esc(g.title)}</strong><small>From “${esc(g.sourceTitle)}”</small></span><span class="row-arrow">↗</span></button></li>`).join('')}</ul>${!d.guides.length?'<p>Open any conversation, then choose the gold “Make my step-by-step guide” button. Your guide will be kept here.</p>':''}`);}
+  function makeGuide(){
+    if(!member()){membership();return;}
+    const d=puppy(),c=state.current;if(!c)return;
+    let g=d.guides.find(x=>x.source===c.id);
+    if(!g){g={id:crypto.randomUUID(),source:c.id,sourceTitle:c.title,title:`${d.name?d.name+'’s':'My'} ${c.type==='work'?'Work-From-Home':c.type==='tired'?'Evening Wind-Down':c.type==='night'?'Early Morning':'Step-by-Step'} Guide`,steps:structuredClone(c.steps),checks:c.steps.map(()=>false),notes:'',question:c.question};d.guides.unshift(g);}
+    state.guide=g;guidePanel();
   }
-  function home() {
-    const dog=state.dogs[0], used=state.membership==='used';
-    return `<section class="member-home">${dogContext()}<div class="member-helper-layout"><div class="member-helper-copy"><span class="member-eyebrow">Puppy Helper</span><h1>What’s going on<br>with ${escape(dog.name)} today?</h1>${used?`<p>Your first conversation is ready to revisit. Keep working through what’s happening with membership.</p><button class="member-link" data-open-topic="${state.topic}" style="margin-top:18px">Revisit your first conversation →</button>${upgrade()}`:`<p>Big problems or little questions. Get help that fits your dog, your home, and your day.</p>${!isMember()?'<p class="member-free-note">Your first session is on us. No card required.</p>':''}${composer()}`}</div><aside class="member-side-note"><span class="member-eyebrow">Built around your dog</span><p>Your dog profile gives the Puppy Helper a starting point. Add what’s different about today in your question.</p><a href="#dogs" data-view="dogs" class="member-link">View dog profile →</a></aside></div></section>${isMember()?`${savedSections()}${plannerBand()}`:previewBenefits()}`;
+  function guidePaper(g){return `<article class="guide-paper"><span class="eyebrow">Raising My Puppy · Built around ${esc(puppy().name||'your puppy')}</span><h3>${esc(g.title)}</h3><p class="guide-source">From: ${esc(g.sourceTitle)}</p>${g.steps.map(([title,copy],i)=>`<label><input type="checkbox" data-guide-check="${i}" ${g.checks[i]?'checked':''}><span><strong>${esc(title)}</strong><br>${esc(copy)}</span></label>`).join('')}<label class="guide-notes-label" for="guide-notes">What helped today?</label><textarea id="guide-notes" placeholder="Keep a note for next time…" maxlength="2000">${esc(g.notes)}</textarea></article>`;}
+  function guidePanel(){state.panel='guide';const g=state.guide;openPanel(`${back()}<span class="eyebrow">Your personalized guide · Saved</span><h2 id="dialog-title">A few steps to try next.</h2>${guidePaper(g)}<div class="action-row">${gold('Print guide','print-guide')}<button class="text-link" data-action="source-conversation">Open source conversation ↗</button></div><p class="panel-note">Checks and notes are kept for this demo visit.</p>`);}
+  function plannerChoice(){
+    if(!member()){membership();return;}
+    state.panel='planner';openPanel(`${back()}<span class="eyebrow">Your Puppy Planner</span><h2 id="dialog-title">Print it your way.</h2><p>Same purpose. Two intentionally different designs.</p><div class="edition-choices"><section class="edition-choice"><div class="edition-preview"><img src="assets/planner/weekly-puppy-routine-tracker.png" alt="Full-color tracker with navy headings, blue fills and colored row labels"></div><h3>Full-color</h3><p>Rich color, decorative details and a polished finish for your binder.</p>${gold('Open full-color planner','edition-color')}</section><section class="edition-choice"><div class="edition-preview">${planner.lowInk(1)}</div><h3>Printer-friendly</h3><p>White pages, light rules and minimal decoration. Made to use less ink.</p><button type="button" class="secondary-button" data-action="edition-ink">Open printer-friendly planner →</button></section></div><p class="panel-note">Six sample pages are available in this demo. The full membership planner includes 30+ pages.</p>`);
   }
-  function upgrade() {
-    return `<section class="member-upgrade"><span class="member-eyebrow">Keep going with RMP</span><h2>The next question.<br>The next step.</h2><p>Unlimited Puppy Helper sessions, saved conversations, personalized guides, and the full Puppy Planner.</p><div class="member-actions"><span class="member-price">$3.99/month or $30/year</span>${primary('See membership','plans')}</div></section>`;
+  function plannerView(){state.panel='planner-page';openPanel(`<button type="button" class="panel-back" data-action="planner">← Both planner versions</button><span class="eyebrow">Puppy Planner · ${state.edition==='ink'?'Printer-friendly':'Full-color'}</span><h2 id="dialog-title">${planner.pages[state.page][0]}</h2><div class="planner-toolbar"><label for="planner-page-select" class="sr-only">Choose a sample page</label><select id="planner-page-select">${planner.pages.map(([title],i)=>`<option value="${i}" ${i===state.page?'selected':''}>${i+1}. ${title}</option>`).join('')}</select><button class="text-link" data-action="switch-edition">Switch to ${state.edition==='ink'?'full-color':'printer-friendly'}</button></div><div class="planner-page-preview ${state.edition==='ink'?'low-ink':''}">${planner.page(state.page,state.edition)}</div><div class="action-row">${gold('Print this page','print-planner')}<button type="button" class="text-link" data-action="print-all">Print all 6 samples</button></div><p class="panel-note">${state.edition==='ink'?'Dedicated low-ink layout: white backgrounds, minimal fills and light borders.':'Full-color sample from your Puppy Planner.'} Choose “Save as PDF” in the print dialog to keep a copy.</p>`);}
+  function membership(){state.panel='membership';openPanel(`${back()}<span class="eyebrow">Membership & settings</span><h2 id="dialog-title">${member()?'Help for whatever comes next.':'Keep the help going.'}</h2><p>${member()?'Your active member preview includes':'Membership includes'} unlimited Puppy Helper sessions, saved conversations, personalized guides and your Puppy Planner.</p><div class="membership-options"><label><input type="radio" name="membership-plan" value="monthly" checked> Monthly<strong>$3.99</strong><small>per month</small></label><label><input type="radio" name="membership-plan" value="annual"> Annual<strong>$30</strong><small>per year</small></label></div><p>Cancel anytime. Digital membership purchases are non-refundable.</p><div class="action-row">${gold(member()?'Preview membership settings':'Preview active membership',member()?'settings':'activate')}</div><p class="panel-note">Demo only. No checkout, charge or real account changes.</p>`);}
+  function settings(){state.panel='settings';openPanel(`${back()}<span class="eyebrow">Membership settings</span><h2 id="dialog-title">You’re in control.</h2><p>This preview has no real account, email address or payment method. In the finished product, your plan and cancellation controls will live here.</p><div class="action-row"><button class="secondary-button" data-action="preview-cancel">Preview cancellation</button><button class="text-link" data-action="membership">View plans</button></div>`);}
+  function voice(){state.panel='voice';openPanel(`<span class="eyebrow">Voice input preview</span><h2 id="dialog-title">Talk it through.</h2><p>This demo shows how a voice transcript goes into your message. The microphone is not recording.</p><label class="sr-only" for="voice-transcript">Sample voice transcript</label><textarea id="voice-transcript" class="voice-input">${esc(state.draft||'I tried the plan yesterday. Here’s what happened…')}</textarea><div class="action-row">${gold('Use this text','use-voice')}</div>`);}
+  async function readPhoto(file){
+    if(!file)return '';
+    if(!['image/jpeg','image/png','image/webp','image/gif'].includes(file.type)||file.size>8*1024*1024){toast('Choose a JPG, PNG, WebP or GIF under 8 MB.');return '';}
+    const url=URL.createObjectURL(file);
+    try{const image=new Image();image.src=url;await image.decode();state.urls.add(url);return url;}catch{URL.revokeObjectURL(url);toast('That image could not be opened. Choose another photo.');return '';}
   }
-  function previewBenefits() {
-    return `<section class="member-preview-benefits"><p><strong>Your conversations, guides, and planner. Together.</strong>Membership keeps your help close: reopen a conversation, use your personalized guide, and track progress in your Puppy Planner.</p><button class="member-link" data-action="plans">Explore membership →</button></section>`;
+  function resetProfiles(mode){
+    state.profileMode=mode;state.dogs=mode==='empty'?[]:window.RMPMemberData.samples(mode==='multiple');
+    if(mode==='no-photo'){state.dogs[0]={id:'fido',name:'Fido',breed:'Bernedoodle',gender:'Male',sampleAge:'5 months',photo:'',sample:true,history:[],guides:[]};}
+    state.active=state.dogs[0]?.id||'guest';state.current=null;state.draft='';state.attachment='';guest.history=[];guest.guides=[];render();
   }
-  function recentList() {
-    return `<ul class="member-list">${Object.entries(conversations).map(([key,c])=>`<li><button data-open-topic="${key}"><span><strong>${c.title}</strong><small>${c.subtitle}</small></span><span class="row-arrow" aria-hidden="true">↗</span></button></li>`).join('')}</ul>`;
+  function previewReply(question,d){
+    return {id:crypto.randomUUID(),title:question.length>56?question.slice(0,53)+'…':question,question,photo:state.attachment,saved:member(),type:'custom',sample:false,
+      answer:`Let’s pin down the pattern${d.name?' with '+d.name:''}. The useful details are what happened just before, what your puppy did, and what changed afterward.`,
+      steps:[['Describe one specific moment.','Write down where you were, what your puppy could see and what happened just before the behavior.'],['Notice what changed.','Compare the situation with a moment when things went more smoothly. Include your puppy’s rest and the activity just beforehand.'],['Bring those details into the next conversation.','Use the notes to explain what you tried and how your puppy responded. A photo can help show the setup.']],
+      prompt:'Want to pick up where we left off?',memory:`Last time, you asked: “${question.length>100?question.slice(0,97)+'…':question}” Tell me what happened since.`};
   }
-  function savedSections() {
-    return `<div class="member-lower"><section><div class="member-section-heading"><h2>Pick up where you left off.</h2></div>${recentList()}</section><section class="member-guides"><div class="member-section-heading"><h2>Your personalized guides</h2></div><p>Steps you’ve made with the Puppy Helper.</p><button class="member-guide-row" data-action="guide">${icon('guide')}<span><strong>Winnie’s Work-From-Home Guide</strong><small>From “Settling while I work” · View guide ↗</small></span></button></section></div>`;
+  async function printHTML(html){
+    $('#print-area').innerHTML=html.replace(/ id="[^"]*"/g,'').replace(/ for="[^"]*"/g,'');
+    await Promise.all([...$('#print-area').querySelectorAll('img')].map(image=>image.decode().catch(()=>{})));
+    // Print content must be outside a modal dialog (browsers otherwise print the dialog only).
+    const wasOpen=dialog.open;if(wasOpen)dialog.close();
+    const restore=()=>{$('#print-area').innerHTML='';if(wasOpen){dialog.showModal();document.body.style.overflow='hidden';}window.removeEventListener('afterprint',restore);};
+    window.addEventListener('afterprint',restore,{once:true});
+    requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()));
   }
-  function plannerBand() {
-    return `<section class="member-planner-band"><img src="assets/planner/weekly-puppy-routine-tracker.png" alt="Weekly Puppy Routine Tracker"><div><h2>Your Puppy Planner</h2><p>30+ printable pages. Full-color and printer-friendly.</p></div><a href="#planner" data-view="planner" class="member-secondary">View Puppy Planner <span aria-hidden="true">→</span></a></section>`;
-  }
-  function savedView() {
-    if (!isMember()) return `<section class="member-view"><span class="member-eyebrow">Saved</span><h1>Keep useful help close.</h1><p>Membership brings your saved conversations and personalized guides together here.</p>${state.membership==='used'?`<button class="member-link" data-open-topic="${state.topic}">Revisit your first conversation →</button>`:''}${upgrade()}</section>`;
-    return `<section class="member-view"><span class="member-eyebrow">Saved</span><h1>A good place to pick back up.</h1><p>Reopen a conversation or use the steps you made from it.</p>${savedSections()}</section>`;
-  }
-  function dogsView() {
-    return `<section class="member-view"><span class="member-eyebrow">My Dogs</span><h1>The details you tell us once.</h1><p>Keep a dog profile for each dog in your home. Winnie is the active sample for this demo.</p>${state.dogs.map((dog,index)=>`<article class="member-profile">${dog.photo?`<img src="${escape(dog.photo)}" alt="${escape(dog.name)}">`:`<span class="dog-placeholder" aria-hidden="true">${escape(dog.name[0])}</span>`}<div><h2>${escape(dog.name)}${index===0?'<span class="member-badge">Active dog</span>':''}</h2><p>${escape(dogLine(dog))}</p><p>${dog.birthdate?`${dog.estimated?'Estimated birthdate':'Birthdate'}: ${escape(dog.birthdate)}`:'Birthdate: add a date or your best estimate.'}</p><button class="member-link" data-edit-dog="${index}">Edit dog profile</button></div></article>`).join('')}<div class="member-actions">${primary('Add another dog','add-dog')}</div><p class="member-preview-note">Profile edits last for this visit only.</p></section>`;
-  }
-  function profileFields(dog={name:'',breed:'',gender:'',birthdate:'',estimated:false}, onboarding=false) {
-    const today=new Date().toLocaleDateString('en-CA');
-    return `<label>Dog name<input name="name" autocomplete="off" maxlength="40" value="${escape(dog.name)}" required></label><label>Date of birth or estimated birthdate<input name="birthdate" type="date" max="${today}" value="${escape(dog.birthdate)}" required></label><label class="check-label"><input type="checkbox" name="estimated" ${dog.estimated?'checked':''}> This date is my best estimate.</label><small>We use this date to work out your dog’s current age.</small><div class="form-columns"><label>Breed<input name="breed" value="${escape(dog.breed)}" placeholder="Breed or mix" maxlength="70" required></label><label>Gender<select name="gender" required><option value="">Choose</option><option ${dog.gender==='Female'?'selected':''}>Female</option><option ${dog.gender==='Male'?'selected':''}>Male</option><option ${dog.gender==='Unknown'?'selected':''}>Unknown</option></select></label></div><label>Photo <span>(optional)</span><input name="photo" type="file" accept="image/*"></label><small id="photo-status">${onboarding?'You can add a photo later.':'Photo changes are shown for this visit.'}</small>`;
-  }
-  function setup() {
-    return `<section class="member-onboarding"><div><span class="member-eyebrow">Start with a dog profile</span><h1>A little about your dog.</h1><p>A few details help the Puppy Helper start with your dog in mind. You can add another dog later.</p><form id="setup-form" class="member-form">${profileFields(undefined,true)}<div class="member-actions">${primary('Continue to Puppy Helper','submit-setup')}<button type="button" class="member-link" data-action="sample-profile">Use Winnie’s sample profile →</button></div></form><p class="member-preview-note">Winnie’s sample shows 5 months. Her birthdate hasn’t been added.</p></div><aside><img src="assets/images/winnie-hero.png" alt="Winnie, our sample Bernedoodle"><p>Winnie · 5 months · Female · Bernedoodle</p></aside></section>`;
-  }
-  function threadView() {
-    const c=conversations[state.topic];
-    return `<section class="member-view"><button class="member-link" data-view="helper">← Puppy Helper</button><div class="member-thread"><span class="member-eyebrow">${isMember()?'Saved conversation':'Your first session'} · Winnie</span><h1>${c.title}</h1><p class="member-preview-note">Sample conversation · This preview does not generate a new answer.</p><div class="member-thread-message owner"><span class="member-eyebrow">You</span><p>${c.question}</p></div><div class="member-thread-message"><span class="member-eyebrow">Puppy Helper</span><p>${c.answer}</p><p style="margin-top:16px">I’d start with these 3 changes:</p><ol>${c.steps.map(([title,text])=>`<li><strong>${title}</strong> ${text}</li>`).join('')}</ol>${isMember()?`<div class="member-actions">${state.topic==='work'?primary('Open step-by-step guide','guide'):'<button class="member-secondary" data-view="planner">Track her routine in the Puppy Planner</button>'}<button class="member-link" data-action="save-session">${state.sessionSaved?'Conversation saved ✓':'Save conversation'}</button></div>`:''}</div>${isMember()?`<div class="member-actions"><button class="member-link" data-action="follow-up">Ask a follow-up →</button></div>`:upgrade()}</div></section>`;
-  }
-  function plannerView() {
-    if(!isMember()) return `<section class="member-view"><span class="member-eyebrow">Puppy Planner</span><h1>Put the advice to work.</h1><p>30+ printable pages to track potty breaks, build routines, and see what’s changing. Full-color and printer-friendly versions are included with membership.</p>${upgrade()}</section>`;
-    const [name,file]=plannerPages[state.planner];
-    return `<section class="member-view"><span class="member-eyebrow">Your Puppy Planner</span><h1>A place to see what’s working.</h1><p>30+ printable pages in full-color and printer-friendly versions. Choose the pages that help with what you’re working on today.</p><div class="member-planner-layout"><div><span class="member-eyebrow">Inside the planner</span><ul class="member-list">${plannerPages.map(([title],i)=>`<li><button data-page="${i}" aria-current="${i===state.planner}"><strong>${title}</strong></button></li>`).join('')}</ul><p class="member-preview-note" style="margin-top:18px">Six sample pages are available in this demo.</p></div><div><figure class="member-planner-page ${state.edition==='bw'?'printer-friendly':''}"><img src="assets/planner/${file}" alt="${name}" fetchpriority="high"></figure><div class="member-planner-toolbar"><label class="sr-only" for="planner-edition">Planner edition</label><select id="planner-edition"><option value="color" ${state.edition==='color'?'selected':''}>Full-color</option><option value="bw" ${state.edition==='bw'?'selected':''}>Printer-friendly preview</option></select><button class="member-link" data-action="print-planner">Print preview</button><a class="member-link" href="assets/planner/${file}" download>Download color sample</a></div>${state.edition==='bw'?'<p class="member-preview-note">Grayscale preview of this sample page.</p>':''}</div></div></section>`;
-  }
-  function showDialog(html) {
-    if(!dialog.open) state.dialogOrigin=document.activeElement===document.body?main:document.activeElement;
-    dialogContent.innerHTML=html;
-    if(!dialog.open) dialog.showModal();
-    dialog.scrollTop=0;
-    $('.dialog-close').focus({preventScroll:true});
-  }
-  function closeDialog() { dialog.close(); const origin=state.dialogOrigin?.isConnected?state.dialogOrigin:main; origin.focus?.({preventScroll:true}); }
-  function plansDialog() {
-    showDialog(`<span class="member-eyebrow">RMP Membership</span><h2 id="dialog-title">Help for the next question, too.</h2><p>Unlimited Puppy Helper sessions, saved conversations, personalized guides, and your full Puppy Planner.</p><div class="member-plans"><label class="member-plan-choice"><input type="radio" name="plan" value="monthly" checked> Monthly<strong>$3.99</strong><small>per month</small></label><label class="member-plan-choice"><input type="radio" name="plan" value="yearly"> Annual<strong>$30</strong><small>per year</small></label></div><div class="member-actions">${primary('Preview active membership','activate')}</div><p class="member-preview-note">Demo only. No checkout or charge.</p>`);
-  }
-  function guideDialog(print=false) {
-    showDialog(`<span class="member-eyebrow">${print?'Print preview':'Personalized guide'}</span><h2 id="dialog-title">Winnie’s Work-From-Home Guide</h2><p>Made from “Settling while I work.”</p><div class="member-guide-paper"><span class="member-eyebrow">Raising My Puppy · Built around Winnie</span><h3>Winnie’s Work-From-Home Guide</h3><p>Goal: settle comfortably while you work.</p>${['Work blocks: begin out of sight, where Winnie settles faster.','Before stepping away: offer a stuffed toy or quiet activity.','Separate practice: a few calm seconds with you in view. Build slowly.'].map((text,i)=>`<label><input type="checkbox" data-guide-check="${i}" ${state.guideChecks[i]?'checked':''}> <span>${text}</span></label>`).join('')}<label class="notes-label" for="guide-notes">What helped today?</label><textarea id="guide-notes" aria-label="Guide notes" placeholder="A few notes for next time…">${escape(state.guideNotes)}</textarea></div><div class="member-actions">${print?'<button class="member-secondary" data-action="guide">Back to guide</button>':'<button class="member-secondary" data-action="print-guide">Print preview</button><button class="member-link" data-action="source-session">Open source conversation →</button>'}</div><p class="member-preview-note">Checks and notes are temporary in this demo.</p>`);
-  }
-  function editDog(index=null) {
-    state.formPhoto='';
-    const dog=index===null?undefined:state.dogs[index];
-    showDialog(`<span class="member-eyebrow">Dog profile</span><h2 id="dialog-title">${index===null?'Add another dog.':'The details that help.'}</h2><form id="dog-form" data-index="${index===null?'new':index}" class="member-form">${profileFields(dog)}<div class="member-actions">${primary('Use these details','submit-dog')}</div></form><p class="member-preview-note">Changes are kept for this page visit only.</p>`);
-  }
-  function accountDialog() {
-    showDialog(`<span class="member-eyebrow">Your Account</span><h2 id="dialog-title">Your puppy life, together.</h2><p>${isMember()?'Active member preview. Unlimited Puppy Helper sessions and full member tools.':state.membership==='available'?'Your first session is on us. No card required.':'Your first session has been used. Membership keeps the help going.'}</p><div class="member-actions"><button class="member-secondary" data-action="account-dogs">My dog profiles</button>${primary(isMember()?'View membership':'See membership','plans')}</div><p class="member-preview-note">This is a sample account. No sign-in details or payment information are collected.</p>`);
-  }
-  function submitProfile(form, setupMode=false) {
-    if(!form.reportValidity()) return;
-    const data=new FormData(form), birthdate=data.get('birthdate');
-    if(new Date(birthdate+'T12:00:00')>new Date()) { toast('Choose a birthdate or estimate that is today or earlier.'); return; }
-    const index=setupMode?0:form.dataset.index;
-    const existing=index==='new'?null:state.dogs[Number(index)];
-    const dog={name:data.get('name').trim(),breed:data.get('breed').trim(),gender:data.get('gender'),birthdate,estimated:data.has('estimated'),photo:state.formPhoto||existing?.photo||''};
-    if(!dog.name||!dog.breed){toast('Add a dog name and breed or mix.');return;}
-    if(index==='new')state.dogs.push(dog);else state.dogs[Number(index)]=dog;
-    state.profileReady=true;
-    if(dialog.open)closeDialog();
-    go(setupMode?'helper':'dogs');toast(setupMode?'Your dog profile is ready for this demo.':'Dog profile updated for this visit.');
-  }
-  async function readPhoto(file) {
-    if(!file) return '';
-    if(!['image/jpeg','image/png','image/webp','image/gif'].includes(file.type)||file.size>8*1024*1024) {toast('Choose a JPG, PNG, WebP, or GIF under 8 MB.');return '';}
-    return new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>{toast('That photo could not be opened. Try another image.');resolve('');};reader.readAsDataURL(file);});
-  }
-  document.addEventListener('click', event=> {
-    const button=event.target.closest('[data-action],[data-view],[data-topic],[data-open-topic],[data-edit-dog],[data-page]');
-    if(!button)return;
-    event.preventDefault();
-    if(button.dataset.view) { if(button.dataset.view==='helper'&&!state.profileReady)go('setup');else go(button.dataset.view);return; }
-    if(button.dataset.topic) {state.topic=button.dataset.topic;state.draft=conversations[state.topic].question;render();$('#helper-question').focus();return;}
-    if(button.dataset.openTopic) {state.topic=button.dataset.openTopic;go('thread');return;}
-    if(button.dataset.editDog!==undefined){editDog(Number(button.dataset.editDog));return;}
-    if(button.dataset.page!==undefined){state.planner=Number(button.dataset.page);render();return;}
-    const action=button.dataset.action;
-    if(action==='account')accountDialog();
-    else if(action==='plans')plansDialog();
-    else if(action==='activate'){state.membership='active';state.profileReady=true;closeDialog();go('helper');toast('Active member preview. No payment was made.');}
-    else if(action==='sample-profile'){state.dogs[0]={name:'Winnie',breed:'Bernedoodle',gender:'Female',birthdate:'',estimated:false,photo:winniePhoto};state.profileReady=true;go('helper');}
-    else if(action==='submit-setup')$('#setup-form').requestSubmit();
-    else if(action==='submit-dog')$('#dog-form').requestSubmit();
-    else if(action==='add-dog')editDog();
-    else if(action==='account-dogs'){closeDialog();go('dogs');}
-    else if(action==='attach')$('#composer-photo').click();
-    else if(action==='remove-photo'){state.photo='';render();}
-    else if(action==='guide')guideDialog();
-    else if(action==='print-guide')guideDialog(true);
-    else if(action==='source-session'){closeDialog();state.topic='work';go('thread');}
-    else if(action==='save-session'){state.sessionSaved=true;render();toast('Conversation saved for this demo visit.');}
-    else if(action==='follow-up'){go('helper');state.draft='';$('#helper-question').focus();toast('Try another question. This preview uses the two sample conversations.');}
-    else if(action==='print-planner'){const [name,file]=plannerPages[state.planner];showDialog(`<span class="member-eyebrow">Print preview</span><h2 id="dialog-title">${name}</h2><div class="member-planner-page ${state.edition==='bw'?'printer-friendly':''}" style="margin-top:24px"><img src="assets/planner/${file}" alt="${name}"></div><p class="member-preview-note">Sample page preview. The full planner includes 30+ printable pages.</p>`);}
-  });
   document.addEventListener('submit',event=>{
-    if(!['helper-form','setup-form','dog-form'].includes(event.target.id))return;
-    event.preventDefault();
-    if(event.target.id==='setup-form'){submitProfile(event.target,true);return;}
-    if(event.target.id==='dog-form'){submitProfile(event.target);return;}
-    if(!state.draft.trim())return;
-    if(state.membership==='used'){plansDialog();return;}
-    if(state.membership==='available')state.membership='used';
-    state.draft='';state.photo='';state.sessionSaved=false;go('thread');
+    if(event.target.id==='profile-form'){
+      event.preventDefault();const form=event.target,data=new FormData(form);
+      const name=data.get('name').trim(),breed=data.get('breed').trim(),birthdate=data.get('birthdate');
+      if(!name||!breed||!birthdate||new Date(birthdate+'T12:00:00')>new Date()){toast('Add a name, breed and a birthdate that is today or earlier.');return;}
+      const old=state.dogs.find(d=>d.id===form.dataset.id),isReplacement=old?.sample;
+      const d={id:old?.id||crypto.randomUUID(),name,breed,birthdate,gender:data.get('gender'),photo:form.photoURL||'',sample:false,history:isReplacement?[]:old?.history||[],guides:isReplacement?[]:old?.guides||[]};
+      if(old)state.dogs[state.dogs.indexOf(old)]=d;else state.dogs.push(d);
+      state.active=d.id;state.current=null;state.draft='';state.attachment='';closePanel();render();toast(`${name}’s profile is ready for this visit.`);return;
+    }
+    if(event.target.id!=='helper-form')return;
+    event.preventDefault();const question=state.draft.trim();if(!question)return;
+    if(state.membership==='used'){membership();return;}
+    const d=puppy(),c=previewReply(question,d);d.history.unshift(c);state.current=c;state.draft='';state.attachment='';
+    if(state.membership==='available')state.membership='used';render();renderConversation(true);
+  });
+  document.addEventListener('click',event=>{
+    const toggle=event.target.closest('#puppy-toggle');
+    if(toggle){const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));$('#puppy-menu').hidden=open;return;}
+    if(!event.target.closest('.puppy-switch')&&$('#puppy-menu')){$('#puppy-menu').hidden=true;$('#puppy-toggle').setAttribute('aria-expanded','false');}
+    const b=event.target.closest('[data-action],[data-puppy],[data-conversation],[data-edit],[data-guide]');if(!b)return;
+    if(b.dataset.puppy){state.active=b.dataset.puppy;state.current=null;state.draft='';state.attachment='';render();$('#puppy-toggle').focus({preventScroll:true});return;}
+    if(b.dataset.edit){editProfile(b.dataset.edit);return;}
+    if(b.dataset.conversation){state.current=puppy().history.find(c=>c.id===b.dataset.conversation);if(dialog.open)closePanel();renderConversation(true);return;}
+    if(b.dataset.guide){state.guide=puppy().guides.find(g=>g.id===b.dataset.guide);guidePanel();return;}
+    const action=b.dataset.action;
+    const handlers={account,profiles,history,guides,planner:plannerChoice,membership,settings,voice,'make-guide':makeGuide,'add-puppy':()=>editProfile(),'edit-active':()=>editProfile(puppy().id==='guest'?null:puppy().id),
+      attach:()=>$('#composer-photo').click(),
+      'remove-attachment':()=>{state.attachment='';$('#attachment-preview').innerHTML='';$('#composer-photo').value='';},
+      'edition-color':()=>{state.edition='color';plannerView();},'edition-ink':()=>{state.edition='ink';plannerView();},'switch-edition':()=>{state.edition=state.edition==='ink'?'color':'ink';plannerView();},
+      'save-conversation':()=>{if(!member()){membership();return;}state.current.saved=true;renderConversation(false);toast('Conversation saved for this visit.');},
+      'new-question':()=>{state.current=null;$('#conversation').hidden=true;state.draft='';$('#helper-question').value='';$('#send-question').disabled=true;resizeComposer();$('#helper-question').focus();},
+      'follow-up':()=>{$('#helper-question').focus();},
+      'source-conversation':()=>{state.current=puppy().history.find(c=>c.id===state.guide.source);closePanel();renderConversation(true);},
+      'use-voice':()=>{state.draft=$('#voice-transcript').value.slice(0,3000);closePanel();$('#helper-question').value=state.draft;$('#send-question').disabled=!state.draft.trim();resizeComposer();$('#helper-question').focus();},
+      activate:()=>{state.membership='active';closePanel();render();toast('Active member preview. No payment was made.');},
+      'preview-cancel':()=>{openPanel(`${back()}<span class="eyebrow">Cancellation preview</span><h2 id="dialog-title">Membership canceled.</h2><p>In the finished product, access would continue through the paid period. No real membership has changed in this demo.</p>`);},
+      'print-guide':()=>printHTML(`<div class="print-sheet">${guidePaper(state.guide)}</div>`),
+      'print-planner':()=>printHTML(`<div class="print-sheet">${planner.page(state.page,state.edition)}</div>`),
+      'print-all':()=>printHTML(planner.pages.map((_,i)=>`<div class="print-sheet">${planner.page(i,state.edition)}</div>`).join(''))};
+    handlers[action]?.();
   });
   document.addEventListener('input',event=>{
-    if(event.target.id==='guide-notes')state.guideNotes=event.target.value;
-    if(event.target.id==='helper-question'){state.draft=event.target.value;$('#member-send').disabled=!state.draft.trim();event.target.style.height='auto';event.target.style.height=Math.min(230,event.target.scrollHeight)+'px';}
-  });
-  document.addEventListener('keydown',event=>{
-    if(event.target.id==='helper-question'&&event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('#helper-form').requestSubmit();}
+    if(event.target.id==='helper-question'){state.draft=event.target.value;$('#send-question').disabled=!state.draft.trim();resizeComposer();}
+    if(event.target.id==='guide-notes'&&state.guide)state.guide.notes=event.target.value;
   });
   document.addEventListener('change',async event=>{
-    if(event.target.dataset.guideCheck!==undefined)state.guideChecks[Number(event.target.dataset.guideCheck)]=event.target.checked;
-    if(event.target.id==='demo-state'){
-      if(dialog.open)closeDialog();state.membership=event.target.value;state.draft='';state.photo='';state.topic='work';
-      if(state.membership==='available'){state.profileReady=false;go('setup');}else{state.profileReady=true;go('helper');}
-    }else if(event.target.id==='planner-edition'){state.edition=event.target.value;render();}
-    else if(event.target.type==='file'){
-      const input=event.target,photo=await readPhoto(input.files[0]);if(!photo)return;
-      if(input.id==='composer-photo'){state.photo=photo;render();}else{state.formPhoto=photo;const status=$('#photo-status',input.closest('form'));if(status)status.textContent='Photo ready for this visit.';}
+    const el=event.target;
+    if(el.id==='demo-state'){if(dialog.open)closePanel();state.membership=el.value;state.current=null;state.draft='';state.attachment='';render();}
+    else if(el.id==='demo-profile'){if(dialog.open)closePanel();resetProfiles(el.value);}
+    else if(el.id==='planner-page-select'){state.page=Number(el.value);plannerView();}
+    else if(el.dataset.guideCheck!==undefined&&state.guide)state.guide.checks[Number(el.dataset.guideCheck)]=el.checked;
+    else if(el.type==='file'){
+      const form=el.closest('form'),file=el.files[0];
+      const url=await readPhoto(file);if(!url||!el.isConnected)return;
+      if(el.id==='composer-photo'){state.attachment=url;$('#attachment-preview').innerHTML=attachmentHTML();}
+      else{form.photoURL=url;$('#profile-photo-preview',form).innerHTML=`<img src="${esc(url)}" alt="New puppy hero photo"><span>Ready to take center stage.</span>`;}
     }
   });
-  $('#preview-setup').addEventListener('click',()=>{state.membership='available';state.profileReady=false;go('setup');});
-  $('.dialog-close').addEventListener('click',closeDialog);
-  dialog.addEventListener('click',event=>{if(event.target===dialog){const box=dialog.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)closeDialog();}});
-  const query=new URLSearchParams(location.search).get('state');
-  if(['available','used','active'].includes(query)){state.membership=query;if(query==='available'){state.profileReady=false;state.view='setup';}}
-  render();
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'&&!dialog.open&&$('#puppy-menu')&&!$('#puppy-menu').hidden){$('#puppy-menu').hidden=true;$('#puppy-toggle').setAttribute('aria-expanded','false');$('#puppy-toggle').focus();}
+    if(event.target.id==='helper-question'&&event.key==='Enter'&&!event.shiftKey&&!event.isComposing){event.preventDefault();$('#helper-form').requestSubmit();}
+  });
+  $('.dialog-close').addEventListener('click',closePanel);
+  dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closePanel();}});
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  let motionFrame=0;
+  function updateMotion(){const photo=$('.hero-photo');if(!photo)return;if(reduced.matches||innerWidth<=760){photo.style.transform='none';return;}const y=Math.min(24,scrollY*.04);photo.style.transform=`translateY(${y}px) scale(1.065)`;}
+  window.addEventListener('scroll',()=>{if(motionFrame||reduced.matches)return;motionFrame=requestAnimationFrame(()=>{updateMotion();motionFrame=0;});},{passive:true});
+  window.addEventListener('resize',updateMotion);reduced.addEventListener('change',updateMotion);
+  window.addEventListener('pagehide',()=>state.urls.forEach(url=>URL.revokeObjectURL(url)));
+  const query=new URLSearchParams(location.search);
+  if(['available','used','active'].includes(query.get('state')))state.membership=query.get('state');
+  const mode=query.get('profile');if(['empty','sample','no-photo','multiple'].includes(mode))resetProfiles(mode);else render();
 })();
