@@ -14,12 +14,12 @@
 </head>
 <body class="member-page">
   <a class="skip-link" href="#session-title">Skip to Puppy Helper</a>
-  <details class="demo-controls" id="demo-controls">
+  <details class="demo-controls" id="demo-controls" hidden>
     <summary>INTERACTIVE MEMBER PREVIEW <span>Demo controls +</span></summary>
     <div class="demo-options">
       <label>Membership<select id="demo-state"><option value="active">Active member</option><option value="available">First free session available</option><option value="used">First free session used</option></select></label>
       <label>Puppy context<select id="demo-profile"><option value="sample">Sample profile with photo</option><option value="empty">No profile or photo</option><option value="no-photo">Profile without photo</option><option value="multiple">Multiple puppies</option></select></label>
-      <p>Static preview. Sample replies and voice input. Photos, profiles, conversations and guides stay in this visit and reset on reload. No sign-in, AI or payment.</p>
+      <p>Testing controls. These states use temporary data and do not change your saved browser profile. No live AI, checkout or charge.</p>
     </div>
   </details>
   <div class="member-shell">
@@ -28,11 +28,11 @@
       <button type="button" class="account-button" data-action="account">Account <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/></svg></button>
     </header>
     <main id="member-main"></main>
-    <footer class="member-footer"><span class="footer-brand">Raising My Puppy</span><p>Your conversations, guides and puppy details are in <button class="text-link" data-action="account">Account ↗</button></p></footer>
+    <footer class="member-footer"><span class="footer-brand">Raising My Puppy</span><p>Your conversations, guides and puppy details are in <button class="text-link" data-action="account">Account</button></p></footer>
   </div>
   <dialog id="member-dialog" aria-labelledby="dialog-title"><button type="button" class="dialog-close" aria-label="Close panel">×</button><div id="dialog-content"></div></dialog>
   <div id="member-status" role="status" aria-live="polite"></div>
   <div id="print-area"></div>
-  <noscript><p class="noscript">Enable JavaScript to use this interactive member preview.</p></noscript>
+  <noscript><p class="noscript">Enable JavaScript to use Puppy Helper.</p></noscript>
 </body>
 </html>

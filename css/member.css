@@ -31,3 +31,111 @@ button,input,textarea,select{font:inherit}button,a,input,textarea,select{touch-a
 @media(max-width:440px){.hero-content h1{font-size:38px}.hero-ask{width:100%;font-size:15px}.hero-content .puppy-switch{top:-260px}.session-heading>p{font-size:14px}.session-module{padding:15px;border-radius:10px}.session-profile strong{font-size:11px}.session-profile small{font-size:9px}.session-profile>img,.profile-initial{width:40px;height:40px}.session-label{margin-left:53px;font-size:8px}.session-progress{font-size:9px}.question-line{padding:17px;font-size:14px}.helper-response{padding:17px}.helper-response .reply-text{font-size:14px}.helper-response .response-steps li{font-size:13px;grid-template-columns:20px 1fr;gap:8px}.reply-actions>.gold-button{font-size:14px;padding:15px;gap:12px;line-height:1.5}.inline-guide{padding:17px}.inline-guide .guide-paper h3{font-size:26px!important}.inline-guide .action-row>*{width:100%;justify-content:center}.session-compose h3{font-size:23px}.session-compose .composer{padding:13px}.edition-preview{height:290px}.edition-choice>p{min-height:0}.photo-upload{padding:17px}.photo-upload h3{font-size:26px!important}.document-scroll{height:49dvh;padding:8px}.document-page figcaption{font-size:10px}.document-navigation{gap:8px}.planner-viewer .panel-note{font-size:10px!important}#member-dialog.planner-viewer{width:calc(100% - 14px);padding-inline:14px}.document-toolbar .gold-button,.document-toolbar .secondary-button{flex:1;justify-content:center;padding:8px 10px}.planner-reminder{padding-top:36px}}
 @media(max-width:760px){.session-profile>div{flex:1 1 calc(100% - 65px)}.session-label{flex-basis:100%;margin-left:63px;margin-top:0}}
 @media(max-width:440px){.session-profile>div{flex-basis:calc(100% - 53px)}.session-label{margin-left:53px}}
+
+/* Round 4D: one ongoing conversation and a clean first visit. */
+.hero-profile{position:absolute;top:28px;left:6%;right:6%;z-index:5;pointer-events:none}
+.hero-profile .puppy-switch{position:relative;top:auto;left:auto;margin:0;pointer-events:auto}
+.hero-profile .puppy-toggle{padding:10px 16px;background:#061b34e8;border:1px solid #c7a05b66;border-radius:8px}
+.hero-content{padding-top:170px;padding-bottom:74px}
+.member-hero{min-height:580px}
+.member-hero.is-upload .hero-photo{width:72%;object-position:center}
+.photo-personalization{margin-top:30px;max-width:320px}
+.photo-personalization .photo-action{font-size:13px;min-height:44px;margin:0;text-shadow:none}
+.photo-personalization p{font-size:11px;color:#bacee0;margin-top:8px}
+.member-welcome{max-width:980px;padding:38px 0 0}
+.member-welcome h2{font-size:30px;margin:0 0 14px}
+.member-welcome p{max-width:820px;color:#bfd2e3;font-size:16px;line-height:1.8}
+.conversation-inner{padding:40px 0 55px}
+.session-module{background:linear-gradient(140deg,#12395b,#0a2745 80%)}
+.conversation-heading:empty{display:none}
+.conversation-heading{padding-bottom:18px;border-bottom:1px solid #b7cadd30}
+.conversation-heading h3{margin:0;font-size:23px;max-width:75%}
+.chat-messages{padding:8px 0 5px}
+.chat-message{margin:26px 0;overflow-wrap:anywhere}
+.chat-user{max-width:85%;margin-left:auto;padding:14px 18px;border-radius:18px 18px 4px 18px;background:#315777;color:#fff;white-space:pre-wrap;font-size:16px;line-height:1.7}
+.chat-helper{padding:0;color:#edf5fc}
+.chat-helper .reply-text{font-size:16px;line-height:1.85}
+.chat-helper .reply-label{margin-bottom:14px}
+.chat-helper .reply-label span:last-child{color:#e4ca96;font-size:11px}
+.chat-helper .response-steps{margin:16px 0 0}
+.chat-helper .response-steps li{font-size:15px;color:#cbdceb;line-height:1.75;grid-template-columns:14px 1fr}
+.chat-helper .response-steps li:before{content:'•';font:20px/1.5 Arial,sans-serif;color:var(--gold)}
+.chat-helper .response-steps strong{font-weight:400;color:#fff}
+.session-compose{margin-top:18px;padding-top:22px}
+.session-module:has(.chat-messages[hidden]) .session-compose{margin-top:0;padding-top:0;border:0}
+.composer-footnote{font-size:12px;max-width:700px;line-height:1.6}
+.guide-offer{padding:28px 0 0}
+.guide-offer p{max-width:770px;font-size:15px;color:#c9dbeb;line-height:1.8;margin-bottom:18px}
+.guide-offer .gold-button{justify-content:center;max-width:100%}
+.inline-guide{margin-top:24px}
+.recent-section{background:linear-gradient(110deg,#234f76,#2e6089);padding:38px 0 42px;border-block:1px solid #bda06d50}
+.recent-section .section-heading{margin-bottom:12px}
+.recent-explanation{font-size:14px;color:#e0ebf5;max-width:700px;margin-bottom:20px}
+.recent-list small,.recent-section .empty-note{color:#d1e2f0}
+.recent-list button{border-color:#d6e4f150;border-radius:0;transition:background .2s}
+.recent-list button:hover{background:#ffffff0b}
+.account-links button:hover,.overlay-list button:hover{background:#90adca18}
+.planner-banner{background:#09223c;border-block:1px solid #b69a5b66;overflow:hidden}
+.planner-ticker{overflow:hidden;padding:20px 0}
+.planner-ticker-track{display:flex;width:max-content;animation:planner-roll 100s linear infinite}
+.planner-ticker-group{display:flex;align-items:center;gap:50px;padding-right:50px;flex-shrink:0}
+.planner-ticker-group span{white-space:nowrap;font-size:15px;color:#e9d7b0}
+.planner-ticker:hover .planner-ticker-track,.planner-ticker:focus .planner-ticker-track{animation-play-state:paused}
+.planner-lock-note{display:block;font-size:12px;color:#c3d5e4;margin-top:14px}
+.membership-invite{margin-top:24px;padding:27px 30px;background:#173d60;border:1px solid #c4a06388;border-radius:12px}
+.membership-invite h3{font-size:32px;margin:0 0 14px}
+.membership-invite p{color:#d1e2ef;font-size:15px;line-height:1.8;max-width:760px}
+.invite-price{display:block;color:var(--gold);font-size:17px;font-weight:400;margin-top:20px}
+.invitation-dismissed{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:24px;color:#cbdceb;font-size:14px}
+.gold-button:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,#fff4 50%,transparent 65%);transform:translateX(-120%);animation:gold-shimmer 9s ease-in-out infinite}
+@keyframes planner-roll{to{transform:translateX(-50%)}}
+@keyframes gold-shimmer{0%,65%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+@media(max-width:1100px){.hero-content{padding-left:6%;width:64%}.member-hero{min-height:580px}}
+@media(max-width:760px){
+ .member-hero{min-height:0;padding-top:295px}
+ .hero-profile{top:20px;left:6%}
+ .hero-content{width:100%;padding:0 6% 35px}
+ .hero-profile .puppy-switch{position:relative;top:auto;left:auto}
+ .hero-photo,.member-hero.is-upload .hero-photo{width:100%;height:390px}
+ .member-hero.is-upload .hero-photo{object-position:center}
+ .hero-shade{background:linear-gradient(0deg,#061b34 0%,#061b34 30%,#061b34e6 47%,#061b3430 73%,transparent 94%)}
+ .photo-personalization{margin-top:19px}
+ .member-welcome{padding-top:28px}
+ .member-welcome h2{font-size:28px}
+ .member-welcome p{font-size:15px}
+ .chat-user{max-width:92%;font-size:15px;padding:13px 16px}
+ .chat-helper .reply-text{font-size:15px}
+ .chat-helper .response-steps li{font-size:14px}
+ .conversation-inner{padding:32px 0 38px}
+ .guide-offer p{font-size:14px}
+ .membership-invite{padding:22px}
+ .planner-ticker{padding:16px 0}
+ .planner-ticker-group{gap:32px;padding-right:32px}
+}
+@media(max-width:440px){
+ .hero-content h1{font-size:36px}
+ .hero-profile{right:6%}
+ .hero-profile .puppy-toggle{max-width:100%}
+ .hero-profile .puppy-toggle small{max-width:230px}
+ .hero-content{padding-top:0}
+ .conversation-heading{align-items:start;gap:13px}
+ .conversation-heading h3{font-size:21px;max-width:67%}
+ .conversation-heading .text-link{font-size:11px}
+ .chat-user{font-size:14px;max-width:95%}
+ .chat-helper .reply-text{font-size:15px}
+ .composer-footnote{font-size:11px}
+ .guide-offer .gold-button{width:100%}
+ .membership-invite{padding:20px}
+ .membership-invite h3{font-size:28px}
+ .membership-invite p{font-size:14px}
+ .membership-invite .action-row{gap:17px}
+ .invite-price{font-size:16px}
+ .planner-ticker-group span{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+ .planner-ticker{overflow-x:auto}
+ .planner-ticker-track{animation:none;transform:none}
+ .planner-ticker-group[aria-hidden]{display:none}
+ .gold-button:after{animation:none;display:none}
+ .planner-ticker-group{padding-inline:24px}
+}
