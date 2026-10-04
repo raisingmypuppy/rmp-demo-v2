@@ -48,11 +48,11 @@ button,input,textarea,select{font:inherit}button,a,input,textarea,select{touch-a
 .conversation-inner{padding:40px 0 55px}
 .session-module{background:linear-gradient(140deg,#12395b,#0a2745 80%)}
 .conversation-heading:empty{display:none}
-.conversation-heading{padding-bottom:18px;border-bottom:1px solid #b7cadd30}
+.conversation-heading{justify-content:flex-end;margin-bottom:0;padding-bottom:0;border:0}
 .conversation-heading h3{margin:0;font-size:23px;max-width:75%}
 .chat-messages{padding:8px 0 5px}
 .chat-message{margin:26px 0;overflow-wrap:anywhere}
-.chat-user{max-width:85%;margin-left:auto;padding:14px 18px;border-radius:18px 18px 4px 18px;background:#315777;color:#fff;white-space:pre-wrap;font-size:16px;line-height:1.7}
+.chat-user{max-width:85%;margin-left:auto;padding:0;background:none;color:#fff;white-space:pre-wrap;font-size:16px;line-height:1.7}
 .chat-helper{padding:0;color:#edf5fc}
 .chat-helper .reply-text{font-size:16px;line-height:1.85}
 .chat-helper .reply-label{margin-bottom:14px}
@@ -61,7 +61,7 @@ button,input,textarea,select{font:inherit}button,a,input,textarea,select{touch-a
 .chat-helper .response-steps li{font-size:15px;color:#cbdceb;line-height:1.75;grid-template-columns:14px 1fr}
 .chat-helper .response-steps li:before{content:'•';font:20px/1.5 Arial,sans-serif;color:var(--gold)}
 .chat-helper .response-steps strong{font-weight:400;color:#fff}
-.session-compose{margin-top:18px;padding-top:22px}
+.session-compose{margin-top:18px;padding-top:0;border:0}
 .session-module:has(.chat-messages[hidden]) .session-compose{margin-top:0;padding-top:0;border:0}
 .composer-footnote{font-size:12px;max-width:700px;line-height:1.6}
 .guide-offer{padding:28px 0 0}
@@ -71,6 +71,8 @@ button,input,textarea,select{font:inherit}button,a,input,textarea,select{touch-a
 .recent-section{background:linear-gradient(110deg,#234f76,#2e6089);padding:38px 0 42px;border-block:1px solid #bda06d50}
 .recent-section .section-heading{margin-bottom:12px}
 .recent-explanation{font-size:14px;color:#e0ebf5;max-width:700px;margin-bottom:20px}
+.recent-list{display:block}
+.recent-list li+li button{border-top:0}
 .recent-list small,.recent-section .empty-note{color:#d1e2f0}
 .recent-list button{border-color:#d6e4f150;border-radius:0;transition:background .2s}
 .recent-list button:hover{background:#ffffff0b}
@@ -103,7 +105,7 @@ button,input,textarea,select{font:inherit}button,a,input,textarea,select{touch-a
  .member-welcome{padding-top:28px}
  .member-welcome h2{font-size:28px}
  .member-welcome p{font-size:15px}
- .chat-user{max-width:92%;font-size:15px;padding:13px 16px}
+ .chat-user{max-width:92%;font-size:15px}
  .chat-helper .reply-text{font-size:15px}
  .chat-helper .response-steps li{font-size:14px}
  .conversation-inner{padding:32px 0 38px}
