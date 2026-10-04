@@ -149,13 +149,19 @@ button,input,textarea,select{font:inherit}button,a,input,textarea,select{touch-a
 .new-conversation-button{color:var(--gold);border-color:#d5b677;background:#061b3440;font-size:14px;line-height:1.45;padding:11px 19px;max-width:100%;transition:background .2s,border-color .2s}
 .new-conversation-button:hover{background:#d5b6771f;border-color:#f4dfaa}
 .conversation-heading:has(.new-conversation-button){margin-bottom:16px}
-.hero-photo-backdrop{position:absolute;inset:-24px;width:calc(100% + 48px);height:calc(100% + 48px);object-fit:cover;object-position:center;filter:blur(24px) brightness(.6);z-index:-4;pointer-events:none}
-.hero-photo-stage{position:absolute;top:28px;right:2%;width:48%;height:calc(100% - 56px);display:flex;align-items:center;justify-content:center;z-index:-3}
-.member-hero.is-upload .hero-photo{position:static;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;object-position:center;mask-image:none;transform:none;will-change:auto;border:1px solid #e7c88a40;border-radius:12px;box-shadow:0 15px 40px #0004}
+/* Round 4G: immersive uploads, with a feathered portrait over photographic atmosphere. */
+.hero-photo-backdrop{display:none;position:absolute;top:-36px;right:-36px;width:calc(80% + 72px);height:calc(100% + 72px);object-fit:cover;object-position:center;filter:blur(36px) brightness(.65) saturate(.8);z-index:-4;pointer-events:none}
+.is-portrait .hero-photo-backdrop{display:block}
+.hero-photo-stage{position:absolute;inset:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:-3;background:none}
+.member-hero.is-upload .hero-photo{position:absolute;top:0;right:0;width:72%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;mask-image:linear-gradient(90deg,transparent,#000 24%);transform:none;will-change:auto;border:0;border-radius:0;box-shadow:none;background:none}
+.member-hero.is-portrait .hero-photo-stage{left:auto;right:0;width:58%}
+.member-hero.is-portrait .hero-photo{position:static;width:auto;height:auto;object-fit:contain;mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent),linear-gradient(180deg,transparent,#000 12%,#000 85%,transparent);mask-composite:intersect}
 .member-hero.is-upload .hero-content{width:52%}
 @media(max-width:760px){
  .member-hero.is-upload{--photo-height:clamp(360px,95vw,430px);padding-top:calc(120px + var(--photo-height))}
- .member-hero.is-upload .hero-photo-stage{top:92px;right:5%;width:90%;height:var(--photo-height)}
+ .member-hero.is-upload .hero-photo-stage{top:0;right:0;left:0;width:100%;height:calc(120px + var(--photo-height))}
+ .member-hero.is-upload:not(.is-portrait) .hero-photo{width:100%;mask-image:none}
+ .member-hero.is-upload .hero-photo-backdrop{width:calc(100% + 72px);height:calc(192px + var(--photo-height))}
  .member-hero.is-upload .hero-content{width:100%}
  .member-hero.is-upload .hero-shade{background:linear-gradient(180deg,#061b3440 0px,transparent 115px,transparent calc(82px + var(--photo-height)),#061b34 calc(120px + var(--photo-height)))}
 }
