@@ -1,4 +1,4 @@
-/* Round 4F. Static product prototype: scripted replies, simulated membership, device-local storage. */
+/* Round 6. Static product prototype: scripted replies, simulated membership, device-local storage. */
 (() => {
   'use strict';
   const $=(selector,root=document)=>root.querySelector(selector);
@@ -70,7 +70,7 @@
     const d=puppy(),m=memory(d),photo=d.photo||samplePhoto,uploaded=Boolean(d.photo&&!d.sample);
     main.innerHTML=`<section class="member-hero ${uploaded?'is-upload is-portrait':''}" aria-labelledby="helper-title">${uploaded?`<img class="hero-photo-backdrop" src="${esc(photo)}" alt="" aria-hidden="true">`:''}${uploaded?'<div class="hero-photo-stage">':''}<img class="hero-photo" src="${esc(photo)}" alt="${d.photo?esc(d.name||'Your puppy'):'Puppy photo placeholder, replaced when you upload your own'}" fetchpriority="high">${uploaded?'</div>':''}<div class="hero-shade"></div><div class="hero-profile">${switcher(d)}</div><div class="hero-content"><h1 id="helper-title">${esc(m.heading)}</h1><p class="hero-memory">${esc(m.copy)}</p><div class="photo-personalization"><button type="button" class="photo-action" data-action="edit-active">Customize with your puppy’s photo</button>${!d.photo?'<p>Your photo will replace the puppy shown here.</p>':''}</div></div></section>
     ${!d.history.length?`<section class="member-welcome section-inner"><h2>Welcome to Raising My Puppy.</h2><p>Ask the Puppy Helper anything that’s going on with your puppy, anytime. When you need something more structured, turn the conversation into a step-by-step guide and use the printable planner to keep things moving.</p></section>`:''}
-    <section class="conversation-section" id="helper-session" aria-labelledby="session-title"><div class="section-inner conversation-inner"><div class="session-heading"><span class="eyebrow">A conversation you can come back to</span><h2 id="session-title" tabindex="-1">Puppy Helper</h2><p>${state.membership==='available'?'Tell me what happened. Your first question and answer are on us.':member()?'Talk it through, try something, then come back with what happened.':'Your first answer is here whenever you need it.'}</p></div><div class="session-module"><div id="conversation-heading" class="conversation-heading"></div><div id="conversation-content" class="chat-messages" role="log" aria-label="Puppy Helper conversation" aria-live="polite" aria-relevant="additions"></div><div class="session-compose">${composer()}<p class="composer-footnote" id="composer-note">Add a photo to show me the setup, or use the mic to talk it through.</p></div></div><div id="guide-area"></div><div id="membership-invitation"></div></div></section>
+    <section class="conversation-section" id="helper-session" aria-labelledby="session-title"><div class="section-inner conversation-inner"><div class="session-heading"><span class="eyebrow">A conversation you can come back to</span><h2 id="session-title" tabindex="-1">Puppy Helper</h2><p>${state.membership==='available'?'Tell me what happened. Your first session is on us. No card required.':member()?'Talk it through, try something, then come back with what happened.':'Your first answer is here whenever you need it.'}</p></div><div class="session-module"><div id="conversation-heading" class="conversation-heading"></div><div id="conversation-content" class="chat-messages" role="log" aria-label="Puppy Helper conversation" aria-live="polite" aria-relevant="additions"></div><div class="session-compose">${composer()}<p class="composer-footnote" id="composer-note">Add a photo to show me the setup, or use the mic to talk it through.</p></div></div><div id="guide-area"></div><div id="membership-invitation"></div></div></section>
     <section class="recent-section" aria-labelledby="recent-title"><div class="section-inner"><div class="section-heading"><h2 id="recent-title">Where we left off</h2><span class="eyebrow">${d.name?'Just for '+esc(d.name):'Your latest conversations'}</span></div><p class="recent-explanation">Your recent conversations stay here so you can pick up where you stopped. Full history is saved in Account.</p><ul class="recent-list" id="recent-list"></ul><p class="empty-note" id="recent-empty"></p></div></section>
     ${plannerBanner()}<section class="planner-reminder" aria-labelledby="planner-reminder-title"><div><span class="eyebrow">Included with your membership</span><h2 id="planner-reminder-title">Have you printed your free planner yet?</h2><p>It’s more than a tracker. Your Puppy Planner gives you 30+ printable pages for the things you actually need to keep up with, from your puppy’s first week and shopping list to training, milestones, medical records, food, socialization, and daily routines.</p>${gold('Open my Puppy Planner','planner')}${!member()?'<small class="planner-lock-note">The complete planner unlocks with membership.</small>':''}</div><div class="planner-art" aria-label="Puppy Planner cover and sample page"><div class="planner-cover"><span>RAISING MY PUPPY</span><strong>The Puppy<br>Planner</strong><small>Little steps.<br>A whole lot of progress.</small></div><img src="assets/planner/weekly-puppy-routine-tracker.png" alt="Weekly Puppy Routine Tracker sample page" loading="lazy"></div></section>`;
     renderConversation(false);
@@ -90,8 +90,16 @@
   }
   function invitation(){
     if(state.membership!=='used')return '';
-    if(state.inviteDismissed)return `<p class="invitation-dismissed">Your answer stays here. ${gold('Continue with RMP','membership')}</p>`;
-    return `<section class="membership-invite" aria-labelledby="invite-title"><h3 id="invite-title">Want to keep going?</h3><p>With membership, keep talking with the Puppy Helper as long as you need, turn your conversations into printable step-by-step guides, save everything for later, and get the complete 30+ page Puppy Planner.</p><strong class="invite-price">$3.99/month or $30/year</strong><div class="action-row">${gold('Continue with RMP','membership')}<button type="button" class="text-link" data-action="dismiss-invitation">Not right now</button></div></section>`;
+    if(state.inviteDismissed)return `<p class="invitation-dismissed">Your answer stays here. ${gold('Continue with RMP','activate')}</p>`;
+    return `<section class="membership-invite" aria-labelledby="invite-title"><h3 id="invite-title" tabindex="-1">Want to keep going?</h3><p>With membership, keep talking with the Puppy Helper as long as you need, turn your conversations into printable step-by-step guides, save everything for later, and get the complete 30+ page Puppy Planner.</p><strong class="invite-price">$3.99/month or $30/year</strong><div class="action-row">${gold('Continue with RMP','activate')}<button type="button" class="text-link" data-action="dismiss-invitation">Not right now</button></div></section>`;
+  }
+  function showInvitation(){
+    if(state.membership!=='used'){lockedFeature('Your step-by-step guides');return;}
+    state.inviteDismissed=false;
+    if(dialog.open)closePanel(false);
+    $('#membership-invitation').innerHTML=invitation();persist();
+    const heading=$('#invite-title');heading.focus({preventScroll:true});
+    heading.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'center'});
   }
   function resizeComposer(){const el=$('#helper-question');if(el){el.style.height='72px';el.style.height=Math.min(210,Math.max(72,el.scrollHeight))+'px';}}
   function messageHTML(message,i){
@@ -101,6 +109,7 @@
   function renderConversation(scroll=true,append=false){
     const c=state.current,log=$('#conversation-content');
     const all=c?messages(c):[];
+    if(all.length)$('.member-welcome')?.remove();
     $('#conversation-heading').innerHTML=member()?'<button type="button" class="secondary-button new-conversation-button" data-action="new-question">Start a new conversation</button>':'';
     if(append)log.insertAdjacentHTML('beforeend',all.slice(log.children.length).map((m,i)=>messageHTML(m,i+log.children.length)).join(''));
     else log.innerHTML=all.map(messageHTML).join('');
@@ -110,6 +119,8 @@
     $('#helper-question').setAttribute('aria-describedby','composer-note');
     $('#composer-note').textContent=state.membership==='used'?'Your free answer is complete. Continue with membership to send your next message.':'Add a photo to show me the setup, or use the mic to talk it through.';
     $('#membership-invitation').innerHTML=invitation();renderGuideArea();renderRecent();
+    $('#demo-state').value=state.membership;
+    $('.session-heading>p').textContent=state.membership==='available'?'Tell me what happened. Your first session is on us. No card required.':member()?'Talk it through, try something, then come back with what happened.':'Your first answer is here whenever you need it.';
     if(scroll)log.lastElementChild?.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'nearest'});
   }
   function renderGuideArea(){
@@ -125,8 +136,8 @@
     if(!dialog.open)dialog.showModal();
     document.body.style.overflow='hidden';dialog.scrollTop=0;$('.dialog-close').focus({preventScroll:true});
   }
-  function closePanel(){dialog.close();}
-  dialog.addEventListener('close',()=>{document.body.style.overflow='';if(state.panel==='guide'&&state.current)renderConversation(false);const origin=state.origin?.isConnected?state.origin:$('#puppy-toggle');origin?.focus({preventScroll:true});});
+  function closePanel(restoreFocus=true){state.restoreFocus=restoreFocus;dialog.close();}
+  dialog.addEventListener('close',()=>{document.body.style.overflow='';if(state.panel==='guide'&&state.current)renderConversation(false);const origin=state.origin?.isConnected?state.origin:$('#puppy-toggle');if(state.restoreFocus!==false)origin?.focus({preventScroll:true});state.restoreFocus=true;});
   function account(){state.panel='account';const d=puppy();openPanel(`<span class="eyebrow">Your Account</span><h2 id="dialog-title">Everything you’ve<br>kept along the way.</h2><p class="account-context">${esc(d.name||'Your puppy')}${d.name?' · '+esc(details(d)):''}</p><div class="account-links"><button data-action="profiles">Puppy profiles </button><button data-action="history">Conversation history </button><button data-action="guides">Your step-by-step guides </button><button data-action="planner">Puppy Planner </button><button data-action="membership">Membership & settings </button></div><p>${member()?'Active membership · Help whenever you need it.':state.membership==='available'?'Your first session is on us.':'Your first free session is complete.'}</p>`,'account');}
   function profiles(){state.panel='profiles';openPanel(`${back()}<span class="eyebrow">Puppy profiles</span><h2 id="dialog-title">Who’s keeping you busy?</h2><ul class="overlay-list">${state.dogs.map(d=>`<li><button data-edit="${d.id}"><span><strong>${esc(d.name)}</strong><small>${esc(details(d))}${d.id===state.active?' · Active puppy':''}</small></span></button></li>`).join('')}</ul>${!state.dogs.length?'<p>Add your puppy’s name and photo to make the Helper yours.</p>':''}<div class="action-row">${gold(state.dogs.length?'Add another puppy':'Add your puppy','add-puppy')}</div>`);}
   function editProfile(id=null){
@@ -137,7 +148,7 @@
   function history(){if(!member()){lockedFeature('Saved conversation history');return;}state.panel='history';const d=puppy();openPanel(`${back()}<span class="eyebrow">${esc(d.name||'Your puppy')} · Conversation history</span><h2 id="dialog-title">Pick up the conversation.</h2><ul class="overlay-list">${d.history.map(c=>`<li><button data-conversation="${c.id}"><span><strong>${esc(c.title)}</strong><small>${c.saved?'Saved conversation':'This visit'}</small></span></button></li>`).join('')}</ul>${!d.history.length?'<p>Your conversations will appear here after you send your first question.</p>':''}`);}
   function guides(){if(!member()){lockedFeature('Saved step-by-step guides');return;}state.panel='guides';const d=puppy();openPanel(`${back()}<span class="eyebrow">${esc(d.name||'Your puppy')} · Saved guides</span><h2 id="dialog-title">The next steps, ready.</h2><ul class="overlay-list">${d.guides.map(g=>`<li><button data-guide="${g.id}"><span><strong>${esc(g.title)}</strong><small>From “${esc(g.sourceTitle)}”</small></span></button></li>`).join('')}</ul>${!d.guides.length?'<p>Open any conversation, then choose the gold “Make my step-by-step guide” button. Your guide will be kept here.</p>':''}`);}
   function makeGuide(){
-    if(!member()){membership();return;}
+    if(!member()){showInvitation();return;}
     const d=puppy(),c=state.current;if(!c)return;
     let g=d.guides.find(x=>x.source===c.id);
     const steps=messages(c).filter(m=>m.role==='helper').flatMap(m=>m.steps||[]).filter((step,i,a)=>a.findIndex(x=>x[0]===step[0])===i);
@@ -161,7 +172,7 @@
     viewport.addEventListener('scroll',()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;const top=viewport.getBoundingClientRect().top;const pages=[...viewport.querySelectorAll('.document-page')];const current=pages.findIndex(page=>page.getBoundingClientRect().bottom>top+40);$('#document-page').value=Math.max(1,current+1);});},{passive:true});
   }
   function lockedFeature(label){
-    if(state.membership==='used'){membership();return;}
+    if(state.membership==='used'){showInvitation();return;}
     openPanel(`${back()}<span class="eyebrow">Included with membership</span><h2 id="dialog-title">${esc(label)}</h2><p>Your first Puppy Helper question and answer are on us. Start there, then explore membership when you’re ready.</p><div class="action-row">${gold('Start my free conversation','return-to-chat')}</div>`);
   }
   function membership(){
@@ -170,13 +181,17 @@
   }
   function settings(){state.panel='settings';openPanel(`${back()}<span class="eyebrow">Membership settings</span><h2 id="dialog-title">You’re in control.</h2><p>This is a working product preview. Puppy Helper replies are scripted, membership is simulated, and there is no live AI, sign-in or billing.</p><p>Profiles, uploaded photos, conversations and guides ${testing?'are temporary in this testing state':'are stored only in this browser on this device'}. They are not synced to an online account.</p><div class="action-row"><button class="text-link" data-action="membership">View membership</button></div>`);}
   function activate(){
+    // A completed free answer is required. This changes demo access, never billing.
+    if(state.membership!=='used'){if(!member())lockedFeature('Start with your first question.');return;}
+    const composer=$('#helper-form'),anchorTop=composer.getBoundingClientRect().top;
     state.membership='active';state.inviteDismissed=false;
     puppy().history.forEach(c=>c.saved=true);persist();
-    if(dialog.open)closePanel();
-    // Unlock around the existing chat and composer without replacing either.
-    renderConversation(false);$('#demo-state').value='active';
-    $('.session-heading>p').textContent='Talk it through, try something, then come back with what happened.';
-    $('.planner-lock-note')?.remove();$('#helper-question').focus();toast('Membership unlocked. Continue right here. No payment was made.');
+    if(dialog.open)closePanel(false);
+    // Keep the actual message nodes, composer, draft and puppy context in place.
+    renderConversation(false,true);
+    $('.planner-lock-note')?.remove();
+    window.scrollBy({top:composer.getBoundingClientRect().top-anchorTop,behavior:'instant'});
+    $('#helper-question').focus({preventScroll:true});toast('Membership unlocked. Keep talking right here.');
   }
   function voice(){state.panel='voice';openPanel(`<span class="eyebrow">Voice input preview</span><h2 id="dialog-title">Talk it through.</h2><p>This demo shows how a voice transcript goes into your message. The microphone is not recording.</p><label class="sr-only" for="voice-transcript">Sample voice transcript</label><textarea id="voice-transcript" class="voice-input">${esc(state.draft||'I tried the plan yesterday. Here’s what happened…')}</textarea><div class="action-row">${gold('Use this text','use-voice')}</div>`);}
   async function readPhoto(file){
@@ -202,6 +217,7 @@
     return {role:'helper',text:`Let’s pin down the pattern${d.name?' with '+d.name:''}. What happened just before, what did your puppy do, and what changed afterward?`,steps:[['Start with one specific moment.','Note where you were, what your puppy could see, and what happened just before the behavior.'],['Look for a useful comparison.','Think of a time when the same situation went more smoothly. What was different?']]};
   }
   function sendMessage(question){
+    if(state.membership==='used')return;
     const d=puppy();let c=state.current;
     const reply=replyFor(question,d,c);
     if(!c){c={id:crypto.randomUUID(),title:question.length>56?question.slice(0,53)+'…':question,question,type:reply.type||'custom',saved:member(),messages:[],prompt:'Want to pick up where we left off?',memory:`Last time, you asked: “${question.slice(0,100)}”. Tell me what happened since.`};d.history.unshift(c);state.current=c;}
@@ -235,7 +251,7 @@
     }
     if(event.target.id!=='helper-form')return;
     event.preventDefault();const question=state.draft.trim();if(!question)return;
-    if(state.membership==='used'){membership();return;}
+    if(state.membership==='used'){showInvitation();return;}
     sendMessage(question);
   });
   document.addEventListener('click',event=>{
@@ -301,7 +317,7 @@
       if(previewMode==='returning'){state.membership='active';resetProfiles('multiple');return;}
       state.membership=previewMode==='subscribed'?'active':'available';
       if(previewMode==='used'||previewMode==='subscribed'){
-        const question='My puppy barks in the playpen while I work from home.';
+        const question='My puppy barks in the playpen when she can see me working from home, but settles faster when I leave the room. What should I try?';
         const reply=replyFor(question,guest,null);
         const c={id:'preview-first',title:'Settling while I work',question,type:'work',saved:member(),messages:[{role:'user',text:question},reply]};
         guest.history=[c];state.current=c;if(previewMode==='used')state.membership='used';

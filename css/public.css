@@ -143,3 +143,19 @@
  .public-gold-button,.public-send{transition:none!important}
  .public-gold-button:hover{transform:none}
 }
+
+/* Round 6: the existing entry dialog becomes the product's sign-in drawer. */
+.public-entry{inset:0 0 0 auto;margin:0;width:min(480px,100%);max-width:100vw;height:100dvh;max-height:100dvh;border-radius:0;border-block:0;background:linear-gradient(150deg,#10375a,#061b34 65%);color:#f7faff;overscroll-behavior:contain}
+.public-entry[open]{animation:public-entry-slide .3s ease-out}
+.public-entry-inner{padding:65px 35px 35px}
+.public-entry .preview-eyebrow{color:#e7c88a;font-size:11px;letter-spacing:.16em}
+.public-entry p{color:#bfd2e3;font-size:14px;line-height:1.8}
+.public-entry .public-entry-price{color:#e7c88a;font-size:17px}
+.public-entry input{color:#153651}
+.public-entry small{color:#bfd2e3}
+.public-entry a.public-gold-button{color:#051c36;text-decoration:none}
+.public-demo-continuation{margin-top:27px;padding-top:8px;border-top:1px solid #b89b5c66}
+.public-entry .public-entry-reassurance{font-size:12px}
+@keyframes public-entry-slide{from{transform:translateX(100%)}to{transform:none}}
+@media(max-width:440px){.public-entry-inner{padding:60px 24px 28px}.public-entry h2{font-size:32px}.public-entry .public-gold-button{font-size:14px;padding-inline:18px}}
+@media(prefers-reduced-motion:reduce){.public-entry[open]{animation:none}}

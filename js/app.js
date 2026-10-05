@@ -530,10 +530,10 @@ var ch="Winnie is my 5-month-old female Bernedoodle and I work from home. If I p
     }
 var B=z(Ke(),1);function GL(){return(0,B.jsxs)("div",{className:"account-demo-screen",children:[(0,B.jsxs)("div",{className:"account-demo-top",children:[(0,B.jsx)("span",{children:"ACCOUNT PREVIEW"}),(0,B.jsx)(Lr,{size:19})]}),(0,B.jsxs)("h3",{children:["Your puppy life,",(0,B.jsx)("br",{}),(0,B.jsx)("em",{children:"all together."})]}),(0,B.jsx)("p",{className:"account-demo-email",children:"Your membership. Your dogs. Your progress."}),(0,B.jsxs)("section",{children:[(0,B.jsxs)("div",{className:"account-demo-label",children:["YOUR MEMBERSHIP ",(0,B.jsx)("span",{children:"Active"})]}),(0,B.jsx)("strong",{children:"Unlimited Puppy Helper"}),(0,B.jsx)("p",{children:"Annual membership \xB7 $30/year"})]}),(0,B.jsxs)("section",{children:[(0,B.jsxs)("div",{className:"account-demo-label",children:["YOUR DOGS ",(0,B.jsx)(Yi,{size:17})]}),(0,B.jsxs)("div",{className:"account-demo-dog",children:[(0,B.jsx)("img",{src:"assets/images/winnie-hero.png",alt:"Sample puppy profile"}),(0,B.jsxs)("div",{children:[(0,B.jsx)("strong",{children:"Winnie"}),(0,B.jsx)("p",{children:"5 months \xB7 Female \xB7 Bernedoodle"})]}),(0,B.jsx)(Yl,{size:16})]}),(0,B.jsxs)("div",{className:"account-demo-dog-details",children:[(0,B.jsxs)("span",{children:["Name",(0,B.jsx)("strong",{children:"Winnie"})]}),(0,B.jsxs)("span",{children:["Age",(0,B.jsx)("strong",{children:"5 months"})]}),(0,B.jsxs)("span",{children:["Gender",(0,B.jsx)("strong",{children:"Female"})]})]}),(0,B.jsxs)("div",{className:"account-demo-add",children:[(0,B.jsx)(Yi,{size:13})," Add another dog"]})]}),(0,B.jsxs)("section",{children:[(0,B.jsx)("div",{className:"account-demo-label",children:"SAVED SESSIONS"}),(0,B.jsxs)("div",{className:"account-demo-session",children:[(0,B.jsxs)("span",{children:["Settling while I work",(0,B.jsx)("small",{children:"Pick up where you left off"})]})]}),(0,B.jsxs)("div",{className:"account-demo-session",children:[(0,B.jsxs)("span",{children:["Why she gets wild when tired",(0,B.jsx)("small",{children:"Your conversation, saved"})]})]})]}),(0,B.jsxs)("section",{children:[(0,B.jsx)("div",{className:"account-demo-label",children:"YOUR PLANNERS"}),(0,B.jsxs)("div",{className:"account-demo-downloads",children:[(0,B.jsxs)("span",{children:["Full color ",(0,B.jsx)(aa,{size:14})]}),(0,B.jsxs)("span",{children:["Printer friendly ",(0,B.jsx)(aa,{size:14})]})]})]}),(0,B.jsx)("small",{className:"account-demo-example",children:"Illustrative account with sample puppy and session details"})]})}var mh=z(Ke(),1),aA=[["Potty accidents","My puppy is having potty accidents. "],["Puppy biting","I need help with puppy biting. "],["Crate trouble","My puppy is struggling with the crate. "],["Leaving puppy alone","I need help leaving my puppy alone. "],["Something else",""]];function _L({onChoose:e,disabled:t=!1}){return(0,mh.jsx)("div",{className:"helper-quick-starts","aria-label":"Start with a puppy problem",children:aA.map(([a,o])=>(0,mh.jsx)("button",{type:"button",disabled:t,onClick:()=>e(o),children:a},a))})}var N=z(Ke(),1);function oA() {
         const h=Ra.createElement;
-        const [paused,setPaused]=Ra.useState(false),[open,setOpen]=Ra.useState(false),[question,setQuestion]=Ra.useState("");
+        const [paused,setPaused]=Ra.useState(false),[open,setOpen]=Ra.useState(false),[question,setQuestion]=Ra.useState(""),[entryReady,setEntryReady]=Ra.useState(false);
         const dialog=Ra.useRef(null),trigger=Ra.useRef(null),input=Ra.useRef(null);
-        function start(){trigger.current=document.activeElement;setOpen(true)}
-        Ra.useEffect(()=>{if(open)dialog.current.showModal();else if(dialog.current.open)dialog.current.close()},[open]);
+        function start(){trigger.current=document.activeElement;setEntryReady(false);setOpen(true)}
+        Ra.useEffect(()=>{const overflow=document.body.style.overflow;if(open){dialog.current.showModal();document.body.style.overflow="hidden"}else if(dialog.current.open)dialog.current.close();return()=>{document.body.style.overflow=overflow}},[open]);
         Ra.useEffect(()=>{if(input.current){input.current.style.height="72px";input.current.style.height=Math.min(210,input.current.scrollHeight)+"px"}},[question]);
         const workspace=h("div",{className:"rmp-workspace public-composer-wrap"},
             h("form",{className:"rmp-compose",onSubmit:event=>{event.preventDefault();if(question.trim())start()}},
@@ -546,16 +546,21 @@ var B=z(Ke(),1);function GL(){return(0,B.jsxs)("div",{className:"account-demo-sc
         return h("div",{className:`rmp ${paused?"rmp-paused":""}`},
             h("div",{className:"preview-label"},"RMP · PUBLIC PRODUCT PREVIEW"),
             h(FL,{member:false,signedIn:false,resolved:true,paused,setPaused,onAccount:start,onDownload:()=>{},workspace}),
-            h("dialog",{ref:dialog,className:"public-entry",onCancel:()=>setOpen(false),onClose:()=>{setOpen(false);trigger.current?.focus()},onClick:event=>{if(event.target===dialog.current)setOpen(false)}},
+            h("dialog",{ref:dialog,className:"public-entry","aria-labelledby":"public-entry-title",onCancel:()=>setOpen(false),onClose:()=>{setOpen(false);trigger.current?.focus({preventScroll:true})},onClick:event=>{if(event.target===dialog.current)setOpen(false)}},
                 h("div",{className:"public-entry-inner"},
                     h("button",{className:"public-entry-close","aria-label":"Close sign-in",onClick:()=>setOpen(false)},h(Lr,{size:22})),
-                    h("span",{className:"preview-eyebrow"},"YOUR PUPPY HELPER SESSION"),
-                    h("h2",null,"Start with what’s happening."),
-                    h("p",null,"Your first Puppy Helper session is on us. No card required."),
-                    h("form",{onSubmit:event=>{event.preventDefault();location.href="member.html?preview=available"}},
+                    h("span",{className:"preview-eyebrow"},"START WITH YOUR FIRST SESSION"),
+                    h("h2",{id:"public-entry-title"},"Your first Puppy Helper session is on us."),
+                    h("p",null,"No card required. Enter your email to receive a sign-in link and try RMP with your own puppy first."),
+                    h("p",null,"If it helps, continue with unlimited Puppy Helper conversations, saved conversations, personalized step-by-step guides, puppy profiles, and the full Puppy Planner."),
+                    h("p",{className:"public-entry-price"},"$3.99/month or $30/year"),
+                    !entryReady ? h("form",{onSubmit:event=>{event.preventDefault();setEntryReady(true);requestAnimationFrame(()=>document.getElementById("free-session-continue")?.focus())}},
                         h("label",{htmlFor:"public-email"},"Email address"),h("input",{id:"public-email",type:"email",autoComplete:"email",required:true,placeholder:"you@example.com"}),
-                        h("button",{type:"submit",className:"public-gold-button"},"Start my free session")),
-                    h("small",null,"Demo sign-in: continue to the free-session preview. No email is sent."))));
+                        h("button",{type:"submit",className:"public-gold-button"},"Email me my sign-in link"),
+                        h("small",{className:"public-entry-reassurance"},"No password. No card for your first session.")) :
+                    h("div",{className:"public-demo-continuation"},
+                        h("small",{role:"status"},"Demo continuation · No email was sent."),
+                        h("a",{id:"free-session-continue",href:"member.html?preview=available",className:"public-gold-button"},"Continue to my free session")))));
     }
 (0,jL.createRoot)(document.getElementById("root")).render(location.search.includes("account-capture")?(0,N.jsx)(GL,{}):(0,N.jsx)(oA,{}));})();
 /*! Bundled license information:
