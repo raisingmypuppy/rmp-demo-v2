@@ -112,6 +112,7 @@ button,input,textarea,select{font:inherit}button,a,input,textarea,select{touch-a
  .guide-offer p{font-size:14px}
  .membership-invite{padding:22px}
  .planner-ticker{padding:16px 0}
+ .planner-ticker-track{animation-duration:84.75s}
  .planner-ticker-group{gap:32px;padding-right:32px}
 }
 @media(max-width:440px){
