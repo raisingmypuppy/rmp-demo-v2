@@ -51,7 +51,513 @@ function scrollToAccountPreview(reducedMotion) {
   target.scrollIntoView({behavior: "smooth", block: "start"});
 }
 
-function FL({member:e,signedIn:t,resolved:a,paused:o,setPaused:r,onAccount:i,onDownload:n,workspace:l}){let s=br(),[u,f]=(0,de.useState)(!1);(0,de.useEffect)(()=>f(!0),[]);let c=(0,de.useRef)(null),{scrollYProgress:d}=_l(),{scrollYProgress:h}=_l({target:c,offset:["start start","end start"]}),y=vr(h,[0,1],[0,90]),b=vr(h,[0,1],[1.025,1.12]),[L,m]=(0,de.useState)(!1),p=o||L;return(0,g.jsxs)("div",{className:`approved-experience ${p?"is-quiet":""}`,children:[(0,g.jsxs)("header",{className:"approved-nav",children:[(0,g.jsx)(Xi.div,{className:"visual-reading-progress",style:{scaleX:u&&!s?d:0},"aria-hidden":"true"}),(0,g.jsx)("a",{href:"#",className:"approved-wordmark",children:"Raising My Puppy"}),(0,g.jsxs)("button",{onClick:()=>scrollToAccountPreview(s),children:["Account ",(0,g.jsx)(Io,{size:23,strokeWidth:1.5})]})]}),(0,g.jsxs)("main",{children:[a&&!e&&(0,g.jsxs)(g.Fragment,{children:[(0,g.jsxs)("section",{className:"approved-hero",ref:c,children:[(0,g.jsx)(Xi.img,{src:"assets/images/winnie-hero.png",alt:"Winnie, a Bernedoodle puppy wearing a dusty-rose collar, with her rope toy in a bright living room",fetchPriority:"high",style:u&&!s&&!p?{y,scale:b}:{}}),(0,g.jsxs)("div",{className:"approved-hero-content",children:[(0,g.jsxs)("h1",{children:["Puppy problems?",(0,g.jsx)("br",{}),"Let's figure",(0,g.jsx)("br",{}),(0,g.jsx)("span",{children:"this out."})]}),(0,g.jsx)("p",{children:"Tell the Puppy Helper what's going wrong. Get answers and clear steps that fit your puppy, your home, and your day."}),(0,g.jsxs)("a",{href:"#puppy-helper",className:"approved-hero-link",children:[e?"Open Puppy Helper":"Ask the Puppy Helper",(0,g.jsx)(Xl,{size:16})]})]})]}),(0,g.jsxs)("div",{className:"approved-quotes",children:[(0,g.jsx)("div",{className:"approved-quote-track","aria-hidden":"true",children:[0,1].map(x=>(0,g.jsx)("span",{children:JT.map(v=>(0,g.jsxs)("span",{className:"problem-snippet",children:[(0,g.jsx)("em",{children:v}),(0,g.jsx)("b",{})]},v))},x))}),(0,g.jsx)("button",{onClick:()=>r(!o),"aria-label":o?"Resume decorative motion":"Pause decorative motion",children:o?(0,g.jsx)($l,{size:12}):(0,g.jsx)(Jl,{size:12})})]}),(0,g.jsxs)("section",{className:"approved-product-explanation visual-reveal","aria-labelledby":"product-explanation-title",children:[(0,g.jsxs)("h2",{id:"product-explanation-title",children:["What do you do when",(0,g.jsx)("br",{}),"you don't know what to do?"]}),(0,g.jsxs)("div",{children:[(0,g.jsx)("p",{children:"Start with the problem in front of you. Potty accidents. Biting. Crate trouble. A routine that isn\u2019t working. Tell the Puppy Helper what\u2019s happening and get a clear next step based on your puppy and your real life."}),(0,g.jsx)("p",{children:"Need more than an answer? Keep the conversation going and turn it into a step-by-step guide you can save, reopen, or print."})]})]})]}),(0,g.jsxs)("section",{className:"approved-helper",id:"puppy-helper",onFocusCapture:x=>m(!!x.target.closest(".rmp-workspace")),onBlurCapture:x=>{x.currentTarget.contains(x.relatedTarget)||m(!1)},children:[(0,g.jsx)("h2",{className:"approved-ph-title",children:"Puppy Helper"}),(0,g.jsx)("p",{className:"approved-helper-intro",children:"Tell us what's happening. Big problems or little questions, ask the Puppy Helper. Get instant answers that explain what to try next, with your puppy, your home, and your routine in mind."}),!t&&(0,g.jsx)(tA,{paused:p}),l,!t&&(0,g.jsxs)("p",{className:"approved-signin",children:[(0,g.jsxs)("span",{className:"approved-trial-invitation",children:[(0,g.jsx)("span",{children:"Tell the Puppy Helper what\u2019s frustrating you today."}),(0,g.jsx)("span",{children:"Your first session is on us."})]}),(0,g.jsx)("button",{className:"approved-gold-button helper-start-button",onClick:i,children:"Start your session"})]}),!t&&(0,g.jsxs)("div",{className:"helper-membership-path",children:[(0,g.jsx)("p",{children:"Ready to use the Puppy Helper with your own puppy?"}),(0,g.jsx)("a",{href:"#membership",children:"See membership & start your session ↓"})]})]}),a&&!e&&(0,g.jsx)($T,{paused:p}),a&&!e&&(0,g.jsxs)("section",{className:"approved-account-story",id:"account-preview","aria-labelledby":"account-story-title",children:[(0,g.jsxs)("div",{className:"approved-account-copy",children:[(0,g.jsx)("span",{className:"approved-eyebrow",children:"RIGHT WHERE YOU LEFT IT"}),(0,g.jsxs)("h2",{id:"account-story-title",children:["Your puppy\u2019s details.",(0,g.jsx)("br",{}),"Your conversations.",(0,g.jsx)("br",{}),(0,g.jsx)("em",{children:"Ready when you come back."})]}),(0,g.jsx)("p",{children:"Save Winnie\u2019s birthday, breed, gender, and details once. Reopen a saved session later and keep working from where you left off instead of explaining everything again."}),(0,g.jsx)("p",{className:"approved-account-grown",children:"Your puppy may be the reason you joined, but you can add the adult dogs already in your home, too. And as your puppy grows, the Puppy Helper can keep helping with everyday questions, routines, and training."}),(0,g.jsx)("p",{className:"approved-account-home",children:"Your dog profiles, saved conversations, Puppy Planner downloads, and membership all live in your account."})]}),(0,g.jsxs)("figure",{className:"approved-account-figure visual-reveal",children:[(0,g.jsx)("img",{src:"assets/images/account-preview.webp",alt:"Example account panel showing Winnie, a 5-month-old female Bernedoodle, saved work-from-home and overtired-puppy sessions, membership, and planner downloads",loading:"lazy"}),(0,g.jsx)("figcaption",{children:"Example account \xB7 Sample puppy and conversations"})]})]}),(0,g.jsxs)("section",{className:"approved-print",children:[a&&!e&&(0,g.jsxs)(g.Fragment,{children:[(0,g.jsx)("h2",{children:"Put your guide where you\u2019ll use it."}),(0,g.jsx)("p",{className:"approved-print-intro",children:"Ask the Puppy Helper for a step-by-step guide, then print it for the fridge, counter, sitter, or anyone helping with your puppy."}),(0,g.jsx)(VL,{paused:p}),(0,g.jsx)("p",{className:"approved-print-caption",children:"Check off each step. Make notes. Bring your questions back to the Puppy Helper."})]}),a&&!e?(0,g.jsxs)("div",{className:"approved-offer visual-reveal",id:"membership",children:[(0,g.jsx)("h2",{className:"approved-offer-heading",children:"Keep RMP ready for whatever your puppy throws at you next."}),(0,g.jsxs)("p",{className:"approved-offer-benefits",children:[(0,g.jsx)("span",{children:"Unlimited Puppy Helper sessions"})," \xB7 ",(0,g.jsx)("span",{children:"Saved conversations"})," \xB7 ",(0,g.jsx)("span",{children:"Dog profiles"})," \xB7 ",(0,g.jsx)("span",{children:"Printable step-by-step guides"})," \xB7 ",(0,g.jsx)("span",{children:"Full Puppy Planner"})]}),(0,g.jsxs)("p",{className:"approved-offer-price",children:["$3.99/month ",(0,g.jsx)("span",{children:"or"})," $30/year"]}),t?(0,g.jsxs)(qL,{className:"approved-gold-button",children:["Get Unlimited Puppy Help ",(0,g.jsx)(xt,{size:18})]}):(0,g.jsxs)("button",{className:"approved-gold-button",onClick:i,children:["Get Unlimited Puppy Help ",(0,g.jsx)(xt,{size:18})]}),(0,g.jsx)("small",{children:"Cancel anytime to stop your next renewal. Access continues through your paid period. Payments are non-refundable."})]}):e?(0,g.jsxs)("div",{className:"approved-member-downloads",children:[(0,g.jsx)("h3",{children:"Your planners are ready."}),(0,g.jsxs)("button",{onClick:()=>n(!1),children:["Full-color planner ",(0,g.jsx)(aa,{size:17})]}),(0,g.jsxs)("button",{onClick:()=>n(!0),children:["Printer-friendly planner ",(0,g.jsx)(aa,{size:17})]})]}):null]})]}),(0,g.jsxs)("footer",{className:"approved-footer",children:[(0,g.jsx)("a",{href:"#",className:"approved-wordmark",children:"Raising My Puppy"}),(0,g.jsxs)("div",{children:[(0,g.jsx)("a",{href:"/privacy",children:"Privacy"}),(0,g.jsx)("a",{href:"/terms",children:"Terms"}),(0,g.jsx)("button",{onClick:i,children:"Account"})]}),(0,g.jsxs)("small",{children:["\xA9 ",new Date().getFullYear()," Raising My Puppy"]})]})]})}function $T({paused:e}){let[t,a]=(0,de.useState)(0),[o,r]=(0,de.useState)(1),[i,n]=(0,de.useState)(!1),[l,s]=(0,de.useState)(!1),[u,f]=(0,de.useState)(!1),c=(0,de.useRef)(null),d=(0,de.useRef)(null),h=(0,de.useRef)(!1),y=br(),{scrollYProgress:b}=_l({target:c,offset:["start end","center center"]}),L=vr(b,[0,1],[85,0]),m=vr(b,[0,1],[.92,1]),p=(t+o+Ea.length)%Ea.length,x=Ea[t],v=Ea[p];(0,de.useEffect)(()=>{let M=new IntersectionObserver(([w])=>f(w?.isIntersecting??!1),{threshold:.2});return c.current&&M.observe(c.current),()=>{M.disconnect(),d.current&&clearTimeout(d.current)}},[]);function C(M=1){if(!h.current){if(r(M),y){a(w=>(w+M+Ea.length)%Ea.length);return}h.current=!0,n(!0),d.current=setTimeout(()=>{a(w=>(w+M+Ea.length)%Ea.length),n(!1),h.current=!1},1100)}}return(0,de.useEffect)(()=>{if(e||y||l||!u)return;let M=setInterval(()=>C(1),9500);return()=>clearInterval(M)},[e,y,l,u]),(0,g.jsxs)("section",{className:"approved-planner",ref:c,"aria-label":"Your included puppy planner",children:[(0,g.jsxs)("div",{className:"approved-planner-explanation visual-reveal",children:[(0,g.jsx)("span",{className:"approved-eyebrow",children:"PUT THE ADVICE TO WORK"}),(0,g.jsxs)("h2",{children:["Your guide tells you what to try.",(0,g.jsx)("br",{}),"Your planner shows how it\u2019s going."]}),(0,g.jsx)("p",{children:"Use these printable pages to track potty breaks, keep a routine, and jot down what happens as you practice. You'll have a record of what's working and what to ask the Puppy Helper about next."}),(0,g.jsx)("p",{className:"approved-planner-included",children:"Your membership includes the full-color and printer-friendly planner."})]}),(0,g.jsx)("h3",{className:"planner-progress-title",children:"Your puppy's progress, all together."}),(0,g.jsxs)("div",{className:"planner-studio",children:[(0,g.jsxs)(Xi.div,{className:"planner-open-book",style:y||e?{}:{y:L,scale:m},children:[(0,g.jsx)("div",{className:"binder-cover-seam","aria-hidden":"true"}),(0,g.jsxs)("div",{className:"planner-spread",children:[(0,g.jsx)("div",{className:"binder-spine","aria-hidden":"true"}),(0,g.jsx)(HL,{side:"left",page:i&&o===-1?v[0]:x[0]}),(0,g.jsx)(HL,{side:"right",page:i&&o===1?v[1]:x[1]}),i&&(0,g.jsxs)(g.Fragment,{children:[(0,g.jsx)("div",{className:`binder-turn-shadow ${o===1?"is-forward":"is-backward"}`,"aria-hidden":"true"}),(0,g.jsx)("div",{className:`binder-turn ${o===1?"is-forward":"is-backward"}`,"aria-hidden":"true",children:(0,g.jsx)(NL,{front:x[o===1?1:0].image,back:v[o===1?0:1].image,direction:o})})]}),(0,g.jsx)("div",{className:"binder-rings","aria-hidden":"true",children:[0,1,2].map(M=>(0,g.jsxs)("svg",{viewBox:"0 0 96 36",className:"binder-ring",children:[(0,g.jsx)("defs",{children:(0,g.jsxs)("linearGradient",{id:`ring-metal-${M}`,x1:"0",y1:"0",x2:"0",y2:"1",children:[(0,g.jsx)("stop",{stopColor:"#796039"}),(0,g.jsx)("stop",{offset:".24",stopColor:"#c6ad79"}),(0,g.jsx)("stop",{offset:".43",stopColor:"#9d8050"}),(0,g.jsx)("stop",{offset:".58",stopColor:"#d9c497"}),(0,g.jsx)("stop",{offset:".8",stopColor:"#9a7c49"}),(0,g.jsx)("stop",{offset:"1",stopColor:"#695130"})]})}),(0,g.jsx)("path",{d:"M13 24 C13 35 83 35 83 24",fill:"none",stroke:"#705831",strokeWidth:"5"}),(0,g.jsx)("path",{d:"M13 24 C13 0 83 0 83 24",fill:"none",stroke:"#030c16",strokeWidth:"8",opacity:".3",transform:"translate(0 3)"}),(0,g.jsx)("path",{d:"M13 24 C13 0 83 0 83 24",fill:"none",stroke:`url(#ring-metal-${M})`,strokeWidth:"6"}),(0,g.jsx)("path",{d:"M15 19 C22 5 75 5 81 19",fill:"none",stroke:"#e2d1aa",strokeWidth:"1.2",opacity:".55"}),(0,g.jsx)("path",{d:"M48 6 L48 11",stroke:"#7b613a",strokeWidth:"1"})]},M))})]})]}),(0,g.jsxs)("div",{className:"planner-controls",children:[(0,g.jsx)("button",{"aria-label":"Previous planner page",disabled:i,onClick:()=>{s(!0),C(-1)},children:(0,g.jsx)(Kl,{size:19})}),(0,g.jsxs)("span",{className:"planner-position","aria-live":"polite",children:[t+1," / ",Ea.length]}),(0,g.jsx)("button",{"aria-label":"Next planner page",disabled:i,onClick:()=>{s(!0),C(1)},children:(0,g.jsx)(Wl,{size:19})})]})]})]})}function HL({side:e,page:t}){return(0,g.jsxs)("div",{className:`binder-paper binder-paper-${e}`,children:[(0,g.jsx)("div",{className:"binder-paper-edges","aria-hidden":"true"}),(0,g.jsx)("img",{src:t.image,alt:`Actual planner page: ${t.name}`}),(0,g.jsx)("div",{className:"binder-paper-gutter","aria-hidden":"true"}),(0,g.jsx)("div",{className:"binder-holes","aria-hidden":"true",children:[0,1,2].map(a=>(0,g.jsx)("i",{},a))})]})}function NL({front:e,back:t,direction:a,index:o=0}){let r=a===1?o:15-o;return(0,g.jsxs)("div",{className:`paper-segment ${o===0?"paper-segment-root":""}`,style:{"--bend":`${(2+o*.35)*a}deg`,"--shade-start":Math.sin(o/16*Math.PI)*.18,"--shade-end":Math.sin((o+1)/16*Math.PI)*.18},children:[(0,g.jsx)("span",{className:"paper-face paper-face-front",style:{backgroundImage:`url("${e}")`,backgroundPosition:`${r/15*100}% 0`}}),(0,g.jsx)("span",{className:"paper-face paper-face-back",style:{backgroundImage:`url("${t}")`,backgroundPosition:`${(15-r)/15*100}% 0`}}),o<15&&(0,g.jsx)(NL,{front:e,back:t,direction:a,index:o+1})]})}var ch="Winnie is my 5-month-old female Bernedoodle and I work from home. If I put her in the playpen where she can see me, she barks and loses her mind. Weirdly, if I leave the room, she settles faster. What am I doing wrong?",ph="Seeing you but not being able to reach you may actually be harder for Winnie than having you out of sight. Since she settles faster when you leave the room, use that as your starting point.",eA=[["Use short out-of-sight work blocks first.","Start where Winnie settles faster, instead of making the harder version the default."],["Give her something specific to do when you leave.","Offer a stuffed toy, chew, or quiet activity before stepping away."],["Practice seeing you separately.","Begin with a few seconds before barking starts, then gradually increase the time."]];function tA({paused:e}){let t=br(),[a,o]=(0,de.useState)(0),r=(0,de.useRef)(0),[i,n]=(0,de.useState)(!1),u=(0,de.useRef)(null);(0,de.useEffect)(()=>{let L=new IntersectionObserver(([m])=>{m?.isIntersecting&&m.intersectionRatio>=.35&&(n(!0),L.disconnect())},{threshold:.35,rootMargin:"0px 0px -12% 0px"});return u.current&&L.observe(u.current),()=>L.disconnect()},[]),(0,de.useEffect)(()=>{if(t){r.current=7e3,o(7e3);return}if(!i||e||r.current>=7e3)return;let L,m=performance.now(),p=x=>{r.current=Math.min(7e3,r.current+(x-m)/1.12),m=x,o(r.current),r.current<7e3&&(L=requestAnimationFrame(p))};return L=requestAnimationFrame(p),()=>cancelAnimationFrame(L)},[i,e,t]);let f=a>=6600,c=a>=5200&&a<6200,d=ch.slice(0,Math.floor(Math.min(1,a/1700)*ch.length)),h=ph.slice(0,Math.floor(Math.max(0,Math.min(1,(a-1800)/1500))*ph.length));function y(){r.current=7e3,o(7e3)}function b(){r.current=0,o(0),n(!1),requestAnimationFrame(()=>n(!0))}return(0,g.jsxs)("div",{className:`winnie-demo ${f?"is-complete":""}`,"aria-label":"Winnie's Puppy Helper demonstration","data-demo-complete":f,children:[(0,g.jsxs)("div",{className:"winnie-demo-top",children:[(0,g.jsxs)("div",{className:"winnie-context",children:[(0,g.jsx)("img",{src:"assets/images/winnie-hero.png",alt:"Winnie"}),(0,g.jsxs)("span",{children:[(0,g.jsx)("strong",{children:"Winnie \xB7 5 months \xB7 Female \xB7 Bernedoodle"}),(0,g.jsx)("small",{children:"Saved puppy profile"})]})]}),(0,g.jsx)("span",{className:"winnie-demo-label",children:"EXAMPLE SESSION"})]}),(0,g.jsxs)("div",{className:"winnie-demo-track","aria-hidden":"true",children:[(0,g.jsx)("span",{className:a>0?"done":"",children:"The problem"}),(0,g.jsx)("i",{className:a>=1800?"done":""}),(0,g.jsx)("span",{className:a>=1800?"done":"",children:"The next steps"}),(0,g.jsx)("i",{className:f?"done":""}),(0,g.jsx)("span",{className:f?"done":"",children:"Her guide"})]}),(0,g.jsxs)("div",{className:"winnie-owner",ref:u,children:[(0,g.jsx)("small",{children:"YOU"}),(0,g.jsx)("p",{"aria-label":ch,children:(0,g.jsxs)("span",{"aria-hidden":"true",children:[d,a<1700&&(0,g.jsx)("i",{className:"winnie-type-caret"})]})})]}),a>=1800&&(0,g.jsxs)("div",{className:"winnie-response",children:[(0,g.jsxs)("div",{className:"winnie-response-label",children:[(0,g.jsx)(wo,{size:17}),(0,g.jsx)("strong",{children:"Puppy Helper"})]}),(0,g.jsx)("p",{"aria-label":ph,children:(0,g.jsxs)("span",{"aria-hidden":"true",children:[h,a<3300&&(0,g.jsx)("i",{className:"winnie-type-caret"})]})}),a>=3500&&(0,g.jsxs)("div",{className:"winnie-changes",children:[(0,g.jsx)("strong",{children:"I\u2019d start with these 3 changes:"}),(0,g.jsx)("ol",{children:eA.map(([L,m],p)=>a>=3700+p*260&&(0,g.jsxs)(Xi.li,{initial:t?!1:{x:9},animate:{x:0},transition:{duration:t?0:.18},children:[(0,g.jsx)("span",{children:p+1}),(0,g.jsxs)("p",{children:[(0,g.jsx)("b",{children:L})," ",m]})]},L))})]})]}),a>=4700&&(0,g.jsxs)("button",{className:`winnie-plan-action ${c?"is-building":""}`,onClick:y,disabled:c,children:[c?"Building Winnie\u2019s guide\u2026":"Make Winnie\u2019s step-by-step guide",(0,g.jsx)(xt,{size:17})]}),a>=6200&&(0,g.jsx)(Xi.div,{className:"winnie-plan",initial:t?!1:{height:0},animate:{height:"auto"},transition:{duration:t?0:.38,ease:[.22,1,.36,1]},children:(0,g.jsxs)("div",{className:"winnie-plan-inner",children:[(0,g.jsx)("span",{className:"winnie-plan-eyebrow",children:"BUILT AROUND WINNIE"}),(0,g.jsx)("h3",{children:"Winnie\u2019s Work-From-Home Guide"}),(0,g.jsx)("p",{className:"winnie-plan-goal",children:"Goal: settle comfortably while you work."}),(0,g.jsxs)("ul",{children:[(0,g.jsxs)("li",{children:[(0,g.jsx)("span",{}),"Work blocks: begin out of sight, where Winnie settles faster."]}),(0,g.jsxs)("li",{children:[(0,g.jsx)("span",{}),"Before stepping away: offer a stuffed toy or quiet activity."]}),(0,g.jsxs)("li",{children:[(0,g.jsx)("span",{}),"Separate practice: a few calm seconds with you in view. Build slowly."]})]}),(0,g.jsx)("p",{className:"winnie-plan-note",children:"Note what helps her settle. Reopen this session to adjust the guide together."}),f&&(0,g.jsxs)("div",{className:"winnie-plan-tools",children:[(0,g.jsx)("button",{"aria-disabled":!0,tabIndex:-1,title:"Available in your session",children:"Save session"}),(0,g.jsxs)("button",{"aria-disabled":!0,tabIndex:-1,title:"Available in your session",children:["Print guide ",(0,g.jsx)(aa,{size:13})]})]})]})}),(0,g.jsxs)("div",{className:"winnie-demo-bottom",children:[(0,g.jsx)("small",{children:"Example session and guide."}),f?(0,g.jsx)("button",{onClick:b,children:"Replay demo"}):(0,g.jsxs)("button",{onClick:y,children:["See Winnie\u2019s guide ",(0,g.jsx)(xt,{size:13})]})]})]})}var B=z(Ke(),1);function GL(){return(0,B.jsxs)("div",{className:"account-demo-screen",children:[(0,B.jsxs)("div",{className:"account-demo-top",children:[(0,B.jsx)("span",{children:"ACCOUNT PREVIEW"}),(0,B.jsx)(Lr,{size:19})]}),(0,B.jsxs)("h3",{children:["Your puppy life,",(0,B.jsx)("br",{}),(0,B.jsx)("em",{children:"all together."})]}),(0,B.jsx)("p",{className:"account-demo-email",children:"Your membership. Your dogs. Your progress."}),(0,B.jsxs)("section",{children:[(0,B.jsxs)("div",{className:"account-demo-label",children:["YOUR MEMBERSHIP ",(0,B.jsx)("span",{children:"Active"})]}),(0,B.jsx)("strong",{children:"Unlimited Puppy Helper"}),(0,B.jsx)("p",{children:"Annual membership \xB7 $30/year"})]}),(0,B.jsxs)("section",{children:[(0,B.jsxs)("div",{className:"account-demo-label",children:["YOUR DOGS ",(0,B.jsx)(Yi,{size:17})]}),(0,B.jsxs)("div",{className:"account-demo-dog",children:[(0,B.jsx)("img",{src:"assets/images/winnie-hero.png",alt:"Sample puppy profile"}),(0,B.jsxs)("div",{children:[(0,B.jsx)("strong",{children:"Winnie"}),(0,B.jsx)("p",{children:"5 months \xB7 Female \xB7 Bernedoodle"})]}),(0,B.jsx)(Yl,{size:16})]}),(0,B.jsxs)("div",{className:"account-demo-dog-details",children:[(0,B.jsxs)("span",{children:["Name",(0,B.jsx)("strong",{children:"Winnie"})]}),(0,B.jsxs)("span",{children:["Age",(0,B.jsx)("strong",{children:"5 months"})]}),(0,B.jsxs)("span",{children:["Gender",(0,B.jsx)("strong",{children:"Female"})]})]}),(0,B.jsxs)("div",{className:"account-demo-add",children:[(0,B.jsx)(Yi,{size:13})," Add another dog"]})]}),(0,B.jsxs)("section",{children:[(0,B.jsx)("div",{className:"account-demo-label",children:"SAVED SESSIONS"}),(0,B.jsxs)("div",{className:"account-demo-session",children:[(0,B.jsxs)("span",{children:["Settling while I work",(0,B.jsx)("small",{children:"Pick up where you left off"})]}),(0,B.jsx)(xt,{size:17})]}),(0,B.jsxs)("div",{className:"account-demo-session",children:[(0,B.jsxs)("span",{children:["Why she gets wild when tired",(0,B.jsx)("small",{children:"Your conversation, saved"})]}),(0,B.jsx)(xt,{size:17})]})]}),(0,B.jsxs)("section",{children:[(0,B.jsx)("div",{className:"account-demo-label",children:"YOUR PLANNERS"}),(0,B.jsxs)("div",{className:"account-demo-downloads",children:[(0,B.jsxs)("span",{children:["Full color ",(0,B.jsx)(aa,{size:14})]}),(0,B.jsxs)("span",{children:["Printer friendly ",(0,B.jsx)(aa,{size:14})]})]})]}),(0,B.jsx)("small",{className:"account-demo-example",children:"Illustrative account with sample puppy and session details"})]})}var mh=z(Ke(),1),aA=[["Potty accidents","My puppy is having potty accidents. "],["Puppy biting","I need help with puppy biting. "],["Crate trouble","My puppy is struggling with the crate. "],["Leaving puppy alone","I need help leaving my puppy alone. "],["Something else",""]];function _L({onChoose:e,disabled:t=!1}){return(0,mh.jsx)("div",{className:"helper-quick-starts","aria-label":"Start with a puppy problem",children:aA.map(([a,o])=>(0,mh.jsx)("button",{type:"button",disabled:t,onClick:()=>e(o),children:a},a))})}var N=z(Ke(),1);function oA(){let[e,t]=(0,Ra.useState)(!1),a=location.search.includes("member-preview"),[o,r]=(0,Ra.useState)(!1),[i,n]=(0,Ra.useState)(""),l=(0,Ra.useRef)(null);(0,Ra.useEffect)(()=>{l.current&&(l.current.style.height="24px",l.current.style.height=Math.min(220,Math.max(24,l.current.scrollHeight))+"px")},[i]);let[s,u]=(0,Ra.useState)("");return(0,N.jsxs)("div",{className:`rmp ${e?"rmp-paused":""}`,children:[(0,N.jsx)("div",{className:"preview-label",children:"RMP REVIEW 07 \xB7 ROUND 4 \xB7 Final offer polish"}),(0,N.jsx)(FL,{member:a,signedIn:a,resolved:!0,paused:e,setPaused:t,onAccount:()=>r(!0),onDownload:()=>{},workspace:(0,N.jsxs)("div",{className:"rmp-workspace",children:[(0,N.jsx)(_L,{onChoose:f=>{n(f),l.current?.focus()}}),(0,N.jsxs)("div",{className:"rmp-compose",children:[(0,N.jsx)("textarea",{ref:l,"aria-label":"Your question for Puppy Helper",placeholder:"What\u2019s going on with your puppy?",value:i,onChange:f=>n(f.target.value),onKeyDown:f=>{f.key==="Enter"&&!f.shiftKey&&f.preventDefault()}}),(0,N.jsxs)("div",{className:"rmp-compose-bottom",children:[(0,N.jsxs)("div",{className:"rmp-compose-tools",children:[(0,N.jsx)("button",{"aria-label":"Photo attachment preview","aria-disabled":!0,tabIndex:-1,title:"Available in your session",children:(0,N.jsx)(Ql,{size:22})}),(0,N.jsx)("button",{"aria-label":"Voice input preview","aria-disabled":!0,tabIndex:-1,title:"Available in your session",children:(0,N.jsx)(Zl,{size:22})})]}),(0,N.jsx)("button",{className:"rmp-button","aria-label":"Send question preview","aria-disabled":!0,tabIndex:-1,title:"Available in your session",children:(0,N.jsx)(xt,{size:22})})]})]})]})}),o&&(0,N.jsx)("div",{className:"preview-overlay",onClick:()=>r(!1),children:(0,N.jsxs)("section",{role:"dialog","aria-modal":"true","aria-label":"Account preview",className:"preview-drawer",onClick:f=>f.stopPropagation(),children:[(0,N.jsx)("button",{className:"preview-close","aria-label":"Close account",onClick:()=>r(!1),children:(0,N.jsx)(Lr,{})}),(0,N.jsx)("span",{className:"preview-eyebrow",children:"YOUR ACCOUNT"}),(0,N.jsxs)("h2",{children:["Your puppy life,",(0,N.jsx)("br",{}),(0,N.jsx)("em",{children:"all together."})]}),(0,N.jsx)("p",{children:"Membership, your dogs, saved conversations, and downloads live here."}),(0,N.jsxs)("label",{children:["Email address",(0,N.jsx)("input",{type:"email",placeholder:"you@example.com"})]}),(0,N.jsx)("button",{className:"approved-gold-button",onClick:()=>u("This design preview is not connected to live sign-in."),children:"Email me a sign-in link"}),(0,N.jsx)("p",{role:"status",children:s}),(0,N.jsx)("small",{children:"This is an interactive design preview. Sign-in, billing, and AI require the connected app."})]})})]})}(0,jL.createRoot)(document.getElementById("root")).render(location.search.includes("account-capture")?(0,N.jsx)(GL,{}):(0,N.jsx)(oA,{}));})();
+function FL({
+        member: e,
+        signedIn: t,
+        resolved: a,
+        paused: o,
+        setPaused: r,
+        onAccount: i,
+        onDownload: n,
+        workspace: l
+    }) {
+        let s = br(),
+            [u, f] = (0, de.useState)(!1);
+        (0, de.useEffect)(() => f(!0), []);
+        let c = (0, de.useRef)(null),
+            {
+                scrollYProgress: d
+            } = _l(),
+            {
+                scrollYProgress: h
+            } = _l({
+                target: c,
+                offset: ["start start", "end start"]
+            }),
+            y = vr(h, [0, 1], [0, 90]),
+            b = vr(h, [0, 1], [1.025, 1.12]),
+            [L, m] = (0, de.useState)(!1),
+            p = o || L;
+        return (0, g.jsxs)("div", {
+            className: `approved-experience ${p?"is-quiet":""}`,
+            children: [(0, g.jsxs)("header", {
+                className: "approved-nav",
+                children: [(0, g.jsx)(Xi.div, {
+                    className: "visual-reading-progress",
+                    style: {
+                        scaleX: u && !s ? d : 0
+                    },
+                    "aria-hidden": "true"
+                }), (0, g.jsx)("a", {
+                    href: "#",
+                    className: "approved-wordmark",
+                    children: ["Raising My Puppy", (0,g.jsx)("span", {className:"public-brand-line", children:"YOUR OFFICIAL PUPPY MANUAL"})]
+                }), (0, g.jsxs)("button", {
+                    onClick: () => scrollToAccountPreview(s),
+                    children: ["Account ", (0, g.jsx)(Io, {
+                        size: 23,
+                        strokeWidth: 1.5
+                    })]
+                })]
+            }), (0, g.jsxs)("main", {
+                children: [a && !e && (0, g.jsxs)(g.Fragment, {
+                    children: [(0, g.jsxs)("section", {
+                        className: "approved-hero",
+                        ref: c,
+                        children: [(0, g.jsx)(Xi.img, {
+                            src: "assets/images/winnie-hero.png",
+                            alt: "Winnie, a Bernedoodle puppy wearing a dusty-rose collar, with her rope toy in a bright living room",
+                            fetchPriority: "high",
+                            style: u && !s && !p ? {
+                                y,
+                                scale: b
+                            } : {}
+                        }), (0, g.jsxs)("div", {
+                            className: "approved-hero-content",
+                            children: [(0, g.jsxs)("h1", {
+                                children: ["Puppy problems?", (0, g.jsx)("br", {}), "Let's figure", (0, g.jsx)("br", {}), (0, g.jsx)("span", {
+                                    children: "this out."
+                                })]
+                            }), (0, g.jsx)("p", {
+                                children: "Tell the Puppy Helper what's going wrong. Get answers and clear steps that fit your puppy, your home, and your day."
+                            }), (0, g.jsxs)("a", {
+                                href: "#puppy-helper",
+                                className: "approved-hero-link",
+                                children: [e ? "Open Puppy Helper" : "Ask the Puppy Helper"]
+                            })]
+                        })]
+                    }), (0, g.jsxs)("div", {
+                        className: "approved-quotes",
+                        children: [(0, g.jsx)("div", {
+                            className: "approved-quote-track",
+                            "aria-hidden": "true",
+                            children: [0, 1].map(x => (0, g.jsx)("span", {
+                                children: JT.map(v => (0, g.jsxs)("span", {
+                                    className: "problem-snippet",
+                                    children: [(0, g.jsx)("em", {
+                                        children: v
+                                    }), (0, g.jsx)("b", {})]
+                                }, v))
+                            }, x))
+                        }), (0, g.jsx)("button", {
+                            onClick: () => r(!o),
+                            "aria-label": o ? "Resume decorative motion" : "Pause decorative motion",
+                            children: o ? (0, g.jsx)($l, {
+                                size: 12
+                            }) : (0, g.jsx)(Jl, {
+                                size: 12
+                            })
+                        })]
+                    }), (0, g.jsxs)("section", {
+                        className: "approved-product-explanation visual-reveal",
+                        "aria-labelledby": "product-explanation-title",
+                        children: [(0, g.jsxs)("h2", {
+                            id: "product-explanation-title",
+                            children: ["What do you do when", (0, g.jsx)("br", {}), "you don't know what to do?"]
+                        }), (0, g.jsxs)("div", {
+                            children: [(0, g.jsx)("p", {
+                                children: "Start with the problem in front of you. Potty accidents. Biting. Crate trouble. A routine that isn\u2019t working. Tell the Puppy Helper what\u2019s happening and get a clear next step based on your puppy and your real life."
+                            }), (0, g.jsx)("p", {
+                                children: "Need more than an answer? Keep the conversation going and turn it into a step-by-step guide you can save, reopen, or print."
+                            })]
+                        })]
+                    })]
+                }), (0, g.jsxs)("section", {
+                    className: "approved-helper",
+                    id: "puppy-helper",
+                    onFocusCapture: x => m(!!x.target.closest(".rmp-workspace")),
+                    onBlurCapture: x => {
+                        x.currentTarget.contains(x.relatedTarget) || m(!1)
+                    },
+                    children: [(0, g.jsx)("h2", {
+                        className: "approved-ph-title",
+                        children: "Puppy Helper"
+                    }), (0, g.jsx)("p", {
+                        className: "approved-helper-intro",
+                        children: "Tell us what's happening. Big problems or little questions, ask the Puppy Helper. Get instant answers that explain what to try next, with your puppy, your home, and your routine in mind."
+                    }), !t && (0, g.jsx)(tA, {
+                        paused: p, workspace: l
+                    }), !t && (0, g.jsxs)("p", {
+                        className: "approved-signin",
+                        children: [(0, g.jsxs)("span", {
+                            className: "approved-trial-invitation",
+                            children: [(0, g.jsx)("span", {
+                                children: "Tell the Puppy Helper what\u2019s frustrating you today."
+                            }), (0, g.jsx)("span", {
+                                children: "Your first session is on us."
+                            })]
+                        }), (0, g.jsx)("button", {
+                            className: "approved-gold-button helper-start-button",
+                            onClick: i,
+                            children: "Start your session"
+                        })]
+                    }), !t && (0, g.jsxs)("div", {
+                        className: "helper-membership-path",
+                        children: [(0, g.jsx)("p", {
+                            children: "Ready to use the Puppy Helper with your own puppy?"
+                        }), (0, g.jsx)("a", {
+                            href: "#membership",
+                            children: "See membership & start your session"
+                        })]
+                    })]
+                }), a && !e && (0, g.jsx)($T, {
+                    paused: p
+                }), a && !e && (0, g.jsxs)("section", {
+                    className: "approved-account-story",
+                    id: "account-preview",
+                    "aria-labelledby": "account-story-title",
+                    children: [(0, g.jsxs)("div", {
+                        className: "approved-account-copy",
+                        children: [(0, g.jsx)("span", {
+                            className: "approved-eyebrow",
+                            children: "RIGHT WHERE YOU LEFT IT"
+                        }), (0, g.jsxs)("h2", {
+                            id: "account-story-title",
+                            children: ["Your puppy\u2019s details.", (0, g.jsx)("br", {}), "Your conversations.", (0, g.jsx)("br", {}), (0, g.jsx)("em", {
+                                children: "Ready when you come back."
+                            })]
+                        }), (0, g.jsx)("p", {
+                            children: "Save Winnie\u2019s birthday, breed, gender, and details once. Reopen a saved session later and keep working from where you left off instead of explaining everything again."
+                        }), (0, g.jsx)("p", {
+                            className: "approved-account-grown",
+                            children: "Your puppy may be the reason you joined, but you can add the adult dogs already in your home, too. And as your puppy grows, the Puppy Helper can keep helping with everyday questions, routines, and training."
+                        }), (0, g.jsx)("p", {
+                            className: "approved-account-home",
+                            children: "Your dog profiles, saved conversations, saved guides, Puppy Planner downloads, and membership all live in your account."
+                        })]
+                    }), (0, g.jsxs)("figure", {
+                        className: "approved-account-figure visual-reveal",
+                        children: [(0, g.jsx)("img", {
+                            src: "assets/images/account-preview.webp",
+                            alt: "Example account panel showing Winnie, a 5-month-old female Bernedoodle, saved work-from-home and overtired-puppy sessions, membership, and planner downloads",
+                            loading: "lazy"
+                        }), (0, g.jsx)("figcaption", {
+                            children: "Example account \xB7 Sample puppy and conversations"
+                        })]
+                    })]
+                }), (0, g.jsxs)("section", {
+                    className: "approved-print",
+                    children: [a && !e && (0, g.jsxs)(g.Fragment, {
+                        children: [(0, g.jsx)("h2", {
+                            children: "Put your guide where you\u2019ll use it."
+                        }), (0, g.jsx)("p", {
+                            className: "approved-print-intro",
+                            children: "Ask the Puppy Helper for a step-by-step guide, then print it for the fridge, counter, sitter, or anyone helping with your puppy."
+                        }), (0, g.jsx)(VL, {
+                            paused: p
+                        }), (0, g.jsx)("p", {
+                            className: "approved-print-caption",
+                            children: "Check off each step. Make notes. Bring your questions back to the Puppy Helper."
+                        })]
+                    }), a && !e ? (0, g.jsxs)("div", {
+                        className: "approved-offer visual-reveal",
+                        id: "membership",
+                        children: [(0, g.jsx)("h2", {
+                            className: "approved-offer-heading",
+                            children: "Keep RMP ready for whatever your puppy throws at you next."
+                        }), (0, g.jsxs)("p", {
+                            className: "approved-offer-benefits",
+                            children: [(0, g.jsx)("span", {
+                                children: "Unlimited ongoing Puppy Helper conversations"
+                            }), " \xB7 ", (0, g.jsx)("span", {
+                                children: "Saved conversation history"
+                            }), " \xB7 ", (0, g.jsx)("span", {
+                                children: "Personalized puppy profiles"
+                            }), " \xB7 ", (0, g.jsx)("span", {
+                                children: "Step-by-step guides from your conversations"
+                            }), " \xB7 ", (0, g.jsx)("span", {
+                                children: "Complete 30+ page Puppy Planner, in full-color and printer-friendly editions"
+                            })]
+                        }), (0, g.jsxs)("p", {
+                            className: "approved-offer-price",
+                            children: ["$3.99/month ", (0, g.jsx)("span", {
+                                children: "or"
+                            }), " $30/year"]
+                        }), t ? (0, g.jsxs)(qL, {
+                            className: "approved-gold-button",
+                            children: ["Get Unlimited Puppy Help "]
+                        }) : (0, g.jsxs)("button", {
+                            className: "approved-gold-button",
+                            onClick: i,
+                            children: ["Get Unlimited Puppy Help "]
+                        }), (0, g.jsx)("small", {
+                            children: "Your first Puppy Helper session is on us. No card required. Cancel anytime to stop your next renewal. Access continues through your paid period. Payments are non-refundable."
+                        })]
+                    }) : e ? (0, g.jsxs)("div", {
+                        className: "approved-member-downloads",
+                        children: [(0, g.jsx)("h3", {
+                            children: "Your planners are ready."
+                        }), (0, g.jsxs)("button", {
+                            onClick: () => n(!1),
+                            children: ["Full-color planner ", (0, g.jsx)(aa, {
+                                size: 17
+                            })]
+                        }), (0, g.jsxs)("button", {
+                            onClick: () => n(!0),
+                            children: ["Printer-friendly planner ", (0, g.jsx)(aa, {
+                                size: 17
+                            })]
+                        })]
+                    }) : null]
+                })]
+            }), (0, g.jsxs)("footer", {
+                className: "approved-footer",
+                children: [(0, g.jsx)("a", {
+                    href: "#",
+                    className: "approved-wordmark",
+                    children: "Raising My Puppy"
+                }), (0, g.jsxs)("div", {
+                    children: [(0, g.jsx)("a", {
+                        href: "/privacy",
+                        children: "Privacy"
+                    }), (0, g.jsx)("a", {
+                        href: "/terms",
+                        children: "Terms"
+                    }), (0, g.jsx)("button", {
+                        onClick: i,
+                        children: "Account"
+                    })]
+                }), (0, g.jsxs)("small", {
+                    children: ["\xA9 ", new Date().getFullYear(), " Raising My Puppy"]
+                })]
+            })]
+        })
+    }
+    function $T() {
+        const h=de.createElement;
+        const items=["Puppy’s First Week","Shopping List","Puppy Milestones","Medical Emergency Info","Medical Records","Puppy-Proofing","Training Log","Food Log","Socialization Log","Weekly Routine Tracker"];
+        return h("section",{className:"approved-planner public-planner","aria-label":"Your included Puppy Planner"},
+            h("div",{className:"approved-planner-explanation"},
+                h("span",{className:"approved-eyebrow"},"PUT THE ADVICE TO WORK"),
+                h("h2",null,"Your guide tells you what to try.",h("br"),"Your planner shows how it’s going."),
+                h("p",null,"It’s more than a tracker. The Puppy Planner includes 30+ printable pages for your puppy’s first week, shopping, routines, training, milestones, medical records, food, socialization, emergency information, and more.")),
+            h("div",{className:"public-planner-banner"},h("div",{className:"public-planner-ticker",tabIndex:0,"aria-label":"Explore the planner contents"},
+                h("div",{className:"public-planner-track"},[0,1].map(copy=>h("div",{key:copy,className:"public-planner-group","aria-hidden":copy?true:undefined},items.map(item=>h("span",{key:item},item))))))),
+            h("div",{className:"public-planner-showcase"},
+                h("figure",{className:"public-planner-art","aria-label":"Puppy Planner cover with a selection of its real printable pages"},
+                    h("img",{className:"public-planner-sheet sheet-back",src:"assets/planner/weekly-puppy-routine-tracker.png",alt:"Full-color Weekly Puppy Routine Tracker",loading:"lazy"}),
+                    h("img",{className:"public-planner-sheet sheet-middle",src:"assets/planner/training-log.png",alt:"Full-color Training Log",loading:"lazy"}),
+                    h("img",{className:"public-planner-sheet sheet-front",src:"assets/member-planner/ink/10.webp",alt:"Printer-friendly Your Puppy’s First Week page",loading:"lazy"}),
+                    h("div",{className:"public-planner-cover"},h("span",null,"RAISING MY PUPPY"),h("strong",null,"The Puppy",h("br"),"Planner"),h("small",null,"Routines. Progress.",h("br"),"Life with your puppy."))),
+                h("div",{className:"public-planner-editions"},
+                    h("h3",null,"30+ printable pages in full-color and printer-friendly versions."),
+                    h("div",{className:"public-edition-pair"},
+                        h("figure",null,h("img",{src:"assets/member-planner/color/03.webp",alt:"Full-color All About Me planner page",loading:"lazy"}),h("figcaption",null,h("strong",null,"Full-color"),h("span",null,"The complete planner, with color throughout."))),
+                        h("figure",null,h("img",{src:"assets/member-planner/ink/04.webp",alt:"Printer-friendly All About Me planner page",loading:"lazy"}),h("figcaption",null,h("strong",null,"Printer-friendly"),h("span",null,"A separate low-ink edition for home printing.")))))));
+    }
+
+var ch="Winnie is my 5-month-old female Bernedoodle and I work from home. If I put her in the playpen where she can see me, she barks and loses her mind. Weirdly, if I leave the room, she settles faster. What am I doing wrong?",ph="Seeing you but not being able to reach you may actually be harder for Winnie than having you out of sight. Since she settles faster when you leave the room, use that as your starting point.",eA=[["Use short out-of-sight work blocks first.","Start where Winnie settles faster, instead of making the harder version the default."],["Give her something specific to do when you leave.","Offer a stuffed toy, chew, or quiet activity before stepping away."],["Practice seeing you separately.","Begin with a few seconds before barking starts, then gradually increase the time."]];function tA({
+        paused: e, workspace
+    }) {
+        let t = br(),
+            [a, o] = (0, de.useState)(0),
+            r = (0, de.useRef)(0),
+            [i, n] = (0, de.useState)(!1),
+            u = (0, de.useRef)(null);
+        (0, de.useEffect)(() => {
+            let L = new IntersectionObserver(([m]) => {
+                m?.isIntersecting && m.intersectionRatio >= .35 && (n(!0), L.disconnect())
+            }, {
+                threshold: .35,
+                rootMargin: "0px 0px -12% 0px"
+            });
+            return u.current && L.observe(u.current), () => L.disconnect()
+        }, []), (0, de.useEffect)(() => {
+            if (t) {
+                r.current = 7e3, o(7e3);
+                return
+            }
+            if (!i || e || r.current >= 7e3) return;
+            let L, m = performance.now(),
+                p = x => {
+                    r.current = Math.min(7e3, r.current + (x - m) / 1.12), m = x, o(r.current), r.current < 7e3 && (L = requestAnimationFrame(p))
+                };
+            return L = requestAnimationFrame(p), () => cancelAnimationFrame(L)
+        }, [i, e, t]);
+        let f = a >= 6600,
+            c = a >= 5200 && a < 6200,
+            d = ch.slice(0, Math.floor(Math.min(1, a / 1700) * ch.length)),
+            h = ph.slice(0, Math.floor(Math.max(0, Math.min(1, (a - 1800) / 1500)) * ph.length));
+
+        function y() {
+            r.current = 7e3, o(7e3)
+        }
+
+        function b() {
+            r.current = 0, o(0), n(!1), requestAnimationFrame(() => n(!0))
+        }
+        return (0, g.jsxs)("div", {
+            className: `winnie-demo ${f?"is-complete":""}`,
+            "aria-label": "Winnie's Puppy Helper demonstration",
+            "data-demo-complete": f,
+            children: [(0, g.jsxs)("div", {
+                className: "winnie-demo-top",
+                children: [(0, g.jsxs)("div", {
+                    className: "winnie-context",
+                    children: [(0, g.jsx)("img", {
+                        src: "assets/images/winnie-hero.png",
+                        alt: "Winnie"
+                    }), (0, g.jsxs)("span", {
+                        children: [(0, g.jsx)("strong", {
+                            children: "Winnie \xB7 5 months \xB7 Female \xB7 Bernedoodle"
+                        }), (0, g.jsx)("small", {
+                            children: "Saved puppy profile"
+                        })]
+                    })]
+                }), (0, g.jsx)("span", {
+                    className: "winnie-demo-label",
+                    children: "EXAMPLE SESSION"
+                })]
+            }), (0, g.jsxs)("div", {
+                className: "winnie-owner",
+                ref: u,
+                children: [(0, g.jsx)("p", {
+                    "aria-label": ch,
+                    children: (0, g.jsxs)("span", {
+                        "aria-hidden": "true",
+                        children: [d, a < 1700 && (0, g.jsx)("i", {
+                            className: "winnie-type-caret"
+                        })]
+                    })
+                })]
+            }), a >= 1800 && (0, g.jsxs)("div", {
+                className: "winnie-response",
+                children: [(0, g.jsxs)("div", {
+                    className: "winnie-response-label",
+                    children: [(0, g.jsx)(wo, {
+                        size: 17
+                    }), (0, g.jsx)("strong", {
+                        children: "Puppy Helper"
+                    })]
+                }), (0, g.jsx)("p", {
+                    "aria-label": ph,
+                    children: (0, g.jsxs)("span", {
+                        "aria-hidden": "true",
+                        children: [h, a < 3300 && (0, g.jsx)("i", {
+                            className: "winnie-type-caret"
+                        })]
+                    })
+                }), a >= 3500 && (0, g.jsxs)("div", {
+                    className: "winnie-changes",
+                    children: [(0, g.jsx)("strong", {
+                        children: "I\u2019d start with these 3 changes:"
+                    }), (0, g.jsx)("ol", {
+                        children: eA.map(([L, m], p) => a >= 3700 + p * 260 && (0, g.jsxs)(Xi.li, {
+                            initial: t ? !1 : {
+                                x: 9
+                            },
+                            animate: {
+                                x: 0
+                            },
+                            transition: {
+                                duration: t ? 0 : .18
+                            },
+                            children: [(0, g.jsx)("span", {
+                                children: "•"
+                            }), (0, g.jsxs)("p", {
+                                children: [(0, g.jsx)("b", {
+                                    children: L
+                                }), " ", m]
+                            })]
+                        }, L))
+                    })]
+                })]
+            }), a >= 4700 && (0,g.jsxs)("div", {
+                className: "public-guide-offer",
+                children: [(0,g.jsx)("p", {children:"No need to remember everything we just talked about. The Puppy Helper can turn this conversation into a simple step-by-step guide you can save, print, and follow when you need it."}),
+                (0,g.jsx)("button", {className:"winnie-plan-action public-gold-button",onClick:y,disabled:c,children:c ? "Building Winnie’s guide…" : "Make Winnie’s step-by-step guide"})]
+            }), a >= 6200 && (0, g.jsx)(Xi.div, {
+                className: "winnie-plan",
+                initial: t ? !1 : {
+                    height: 0
+                },
+                animate: {
+                    height: "auto"
+                },
+                transition: {
+                    duration: t ? 0 : .38,
+                    ease: [.22, 1, .36, 1]
+                },
+                children: (0, g.jsxs)("div", {
+                    className: "winnie-plan-inner",
+                    children: [(0, g.jsx)("span", {
+                        className: "winnie-plan-eyebrow",
+                        children: "BUILT AROUND WINNIE"
+                    }), (0, g.jsx)("h3", {
+                        children: "Winnie\u2019s Work-From-Home Guide"
+                    }), (0, g.jsx)("p", {
+                        className: "winnie-plan-goal",
+                        children: "Goal: settle comfortably while you work."
+                    }), (0, g.jsxs)("ul", {
+                        children: [(0, g.jsxs)("li", {
+                            children: [(0, g.jsx)("span", {}), "Work blocks: begin out of sight, where Winnie settles faster."]
+                        }), (0, g.jsxs)("li", {
+                            children: [(0, g.jsx)("span", {}), "Before stepping away: offer a stuffed toy or quiet activity."]
+                        }), (0, g.jsxs)("li", {
+                            children: [(0, g.jsx)("span", {}), "Separate practice: a few calm seconds with you in view. Build slowly."]
+                        })]
+                    }), (0, g.jsx)("p", {
+                        className: "winnie-plan-note",
+                        children: "Note what helps her settle. Reopen this session to adjust the guide together."
+                    }), f && (0, g.jsxs)("div", {
+                        className: "winnie-plan-tools",
+                        children: [(0, g.jsx)("button", {
+                            "aria-disabled": !0,
+                            tabIndex: -1,
+                            title: "Available in your session",
+                            children: "Save session"
+                        }), (0, g.jsxs)("button", {
+                            "aria-disabled": !0,
+                            tabIndex: -1,
+                            title: "Available in your session",
+                            children: ["Print guide "]
+                        })]
+                    })]
+                })
+            }), workspace, (0, g.jsxs)("div", {
+                className: "winnie-demo-bottom",
+                children: [(0, g.jsx)("small", {
+                    children: "Example session and guide."
+                }), f ? (0, g.jsx)("button", {
+                    onClick: b,
+                    children: "Replay demo"
+                }) : (0, g.jsxs)("button", {
+                    onClick: y,
+                    children: ["See Winnie\u2019s guide "]
+                })]
+            })]
+        })
+    }
+var B=z(Ke(),1);function GL(){return(0,B.jsxs)("div",{className:"account-demo-screen",children:[(0,B.jsxs)("div",{className:"account-demo-top",children:[(0,B.jsx)("span",{children:"ACCOUNT PREVIEW"}),(0,B.jsx)(Lr,{size:19})]}),(0,B.jsxs)("h3",{children:["Your puppy life,",(0,B.jsx)("br",{}),(0,B.jsx)("em",{children:"all together."})]}),(0,B.jsx)("p",{className:"account-demo-email",children:"Your membership. Your dogs. Your progress."}),(0,B.jsxs)("section",{children:[(0,B.jsxs)("div",{className:"account-demo-label",children:["YOUR MEMBERSHIP ",(0,B.jsx)("span",{children:"Active"})]}),(0,B.jsx)("strong",{children:"Unlimited Puppy Helper"}),(0,B.jsx)("p",{children:"Annual membership \xB7 $30/year"})]}),(0,B.jsxs)("section",{children:[(0,B.jsxs)("div",{className:"account-demo-label",children:["YOUR DOGS ",(0,B.jsx)(Yi,{size:17})]}),(0,B.jsxs)("div",{className:"account-demo-dog",children:[(0,B.jsx)("img",{src:"assets/images/winnie-hero.png",alt:"Sample puppy profile"}),(0,B.jsxs)("div",{children:[(0,B.jsx)("strong",{children:"Winnie"}),(0,B.jsx)("p",{children:"5 months \xB7 Female \xB7 Bernedoodle"})]}),(0,B.jsx)(Yl,{size:16})]}),(0,B.jsxs)("div",{className:"account-demo-dog-details",children:[(0,B.jsxs)("span",{children:["Name",(0,B.jsx)("strong",{children:"Winnie"})]}),(0,B.jsxs)("span",{children:["Age",(0,B.jsx)("strong",{children:"5 months"})]}),(0,B.jsxs)("span",{children:["Gender",(0,B.jsx)("strong",{children:"Female"})]})]}),(0,B.jsxs)("div",{className:"account-demo-add",children:[(0,B.jsx)(Yi,{size:13})," Add another dog"]})]}),(0,B.jsxs)("section",{children:[(0,B.jsx)("div",{className:"account-demo-label",children:"SAVED SESSIONS"}),(0,B.jsxs)("div",{className:"account-demo-session",children:[(0,B.jsxs)("span",{children:["Settling while I work",(0,B.jsx)("small",{children:"Pick up where you left off"})]})]}),(0,B.jsxs)("div",{className:"account-demo-session",children:[(0,B.jsxs)("span",{children:["Why she gets wild when tired",(0,B.jsx)("small",{children:"Your conversation, saved"})]})]})]}),(0,B.jsxs)("section",{children:[(0,B.jsx)("div",{className:"account-demo-label",children:"YOUR PLANNERS"}),(0,B.jsxs)("div",{className:"account-demo-downloads",children:[(0,B.jsxs)("span",{children:["Full color ",(0,B.jsx)(aa,{size:14})]}),(0,B.jsxs)("span",{children:["Printer friendly ",(0,B.jsx)(aa,{size:14})]})]})]}),(0,B.jsx)("small",{className:"account-demo-example",children:"Illustrative account with sample puppy and session details"})]})}var mh=z(Ke(),1),aA=[["Potty accidents","My puppy is having potty accidents. "],["Puppy biting","I need help with puppy biting. "],["Crate trouble","My puppy is struggling with the crate. "],["Leaving puppy alone","I need help leaving my puppy alone. "],["Something else",""]];function _L({onChoose:e,disabled:t=!1}){return(0,mh.jsx)("div",{className:"helper-quick-starts","aria-label":"Start with a puppy problem",children:aA.map(([a,o])=>(0,mh.jsx)("button",{type:"button",disabled:t,onClick:()=>e(o),children:a},a))})}var N=z(Ke(),1);function oA() {
+        const h=Ra.createElement;
+        const [paused,setPaused]=Ra.useState(false),[open,setOpen]=Ra.useState(false),[question,setQuestion]=Ra.useState("");
+        const dialog=Ra.useRef(null),trigger=Ra.useRef(null),input=Ra.useRef(null);
+        function start(){trigger.current=document.activeElement;setOpen(true)}
+        Ra.useEffect(()=>{if(open)dialog.current.showModal();else if(dialog.current.open)dialog.current.close()},[open]);
+        Ra.useEffect(()=>{if(input.current){input.current.style.height="72px";input.current.style.height=Math.min(210,input.current.scrollHeight)+"px"}},[question]);
+        const workspace=h("div",{className:"rmp-workspace public-composer-wrap"},
+            h("form",{className:"rmp-compose",onSubmit:event=>{event.preventDefault();if(question.trim())start()}},
+                h("textarea",{ref:input,"aria-label":"Your question for Puppy Helper",placeholder:"What’s going on with your puppy?",value:question,onChange:event=>setQuestion(event.target.value),onKeyDown:event=>{if(event.key==="Enter"&&!event.shiftKey&&!event.nativeEvent.isComposing){event.preventDefault();if(question.trim())start()}}}),
+                h("div",{className:"rmp-compose-bottom"},h("div",{className:"rmp-compose-tools"},
+                    h("button",{type:"button","aria-label":"Add a photo to your session",onClick:start},h("svg",{viewBox:"0 0 24 24",width:21,height:21,fill:"none",stroke:"currentColor",strokeWidth:1.6,"aria-hidden":true},h("rect",{x:3,y:5,width:18,height:15,rx:2}),h("circle",{cx:8,cy:10,r:1.5}),h("path",{d:"m3 17 5-4 4 3 4-6 5 7"}))),
+                    h("button",{type:"button","aria-label":"Use voice input in your session",onClick:start},h(Zl,{size:21}))),
+                    h("button",{className:"rmp-button public-send",type:"submit",disabled:!question.trim()},"Send"))),
+            h("p",{className:"public-composer-note"},"Ask a follow-up, or add a photo to show your puppy’s setup. Start your own session to keep talking."));
+        return h("div",{className:`rmp ${paused?"rmp-paused":""}`},
+            h("div",{className:"preview-label"},"RMP · PUBLIC PRODUCT PREVIEW"),
+            h(FL,{member:false,signedIn:false,resolved:true,paused,setPaused,onAccount:start,onDownload:()=>{},workspace}),
+            h("dialog",{ref:dialog,className:"public-entry",onCancel:()=>setOpen(false),onClose:()=>{setOpen(false);trigger.current?.focus()},onClick:event=>{if(event.target===dialog.current)setOpen(false)}},
+                h("div",{className:"public-entry-inner"},
+                    h("button",{className:"public-entry-close","aria-label":"Close sign-in",onClick:()=>setOpen(false)},h(Lr,{size:22})),
+                    h("span",{className:"preview-eyebrow"},"YOUR PUPPY HELPER SESSION"),
+                    h("h2",null,"Start with what’s happening."),
+                    h("p",null,"Your first Puppy Helper session is on us. No card required."),
+                    h("form",{onSubmit:event=>{event.preventDefault();location.href="member.html?preview=available"}},
+                        h("label",{htmlFor:"public-email"},"Email address"),h("input",{id:"public-email",type:"email",autoComplete:"email",required:true,placeholder:"you@example.com"}),
+                        h("button",{type:"submit",className:"public-gold-button"},"Start my free session")),
+                    h("small",null,"Demo sign-in: continue to the free-session preview. No email is sent."))));
+    }
+(0,jL.createRoot)(document.getElementById("root")).render(location.search.includes("account-capture")?(0,N.jsx)(GL,{}):(0,N.jsx)(oA,{}));})();
 /*! Bundled license information:
 
 react/cjs/react.production.js:
