@@ -323,6 +323,10 @@
         guest.history=[c];state.current=c;if(previewMode==='used')state.membership='used';
       }
     }else await restoreMember();
+    if(previewMode==='available'){
+      // Consume only on the free-session entry; prefilling does not spend the free answer.
+      try{state.draft=sessionStorage.getItem('rmp-free-session-draft')||'';sessionStorage.removeItem('rmp-free-session-draft');}catch{ /* Browser storage may be disabled. */ }
+    }
     render();if(state.storageUnavailable)toast('Browser storage is unavailable. Your changes will last while this page is open.');
   }
   initialize();

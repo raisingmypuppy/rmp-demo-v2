@@ -532,6 +532,8 @@ var B=z(Ke(),1);function GL(){return(0,B.jsxs)("div",{className:"account-demo-sc
         const h=Ra.createElement;
         const [paused,setPaused]=Ra.useState(false),[open,setOpen]=Ra.useState(false),[question,setQuestion]=Ra.useState(""),[entryReady,setEntryReady]=Ra.useState(false);
         const dialog=Ra.useRef(null),trigger=Ra.useRef(null),input=Ra.useRef(null);
+        // One-time, same-tab handoff; the draft never enters the URL or a backend.
+        function transferDraft(){try{sessionStorage.setItem("rmp-free-session-draft",question)}catch{ /* Sign-in remains usable when browser storage is blocked. */ }}
         function start(){trigger.current=document.activeElement;setEntryReady(false);setOpen(true)}
         Ra.useEffect(()=>{const overflow=document.body.style.overflow;if(open){dialog.current.showModal();document.body.style.overflow="hidden"}else if(dialog.current.open)dialog.current.close();return()=>{document.body.style.overflow=overflow}},[open]);
         Ra.useEffect(()=>{if(input.current){input.current.style.height="72px";input.current.style.height=Math.min(210,input.current.scrollHeight)+"px"}},[question]);
@@ -544,7 +546,6 @@ var B=z(Ke(),1);function GL(){return(0,B.jsxs)("div",{className:"account-demo-sc
                     h("button",{className:"rmp-button public-send",type:"submit",disabled:!question.trim()},"Send"))),
             h("p",{className:"public-composer-note"},"Ask a follow-up, or add a photo to show your puppy’s setup. Start your own session to keep talking."));
         return h("div",{className:`rmp ${paused?"rmp-paused":""}`},
-            h("div",{className:"preview-label"},"RMP · PUBLIC PRODUCT PREVIEW"),
             h(FL,{member:false,signedIn:false,resolved:true,paused,setPaused,onAccount:start,onDownload:()=>{},workspace}),
             h("dialog",{ref:dialog,className:"public-entry","aria-labelledby":"public-entry-title",onCancel:()=>setOpen(false),onClose:()=>{setOpen(false);trigger.current?.focus({preventScroll:true})},onClick:event=>{if(event.target===dialog.current)setOpen(false)}},
                 h("div",{className:"public-entry-inner"},
@@ -559,8 +560,7 @@ var B=z(Ke(),1);function GL(){return(0,B.jsxs)("div",{className:"account-demo-sc
                         h("button",{type:"submit",className:"public-gold-button"},"Email me my sign-in link"),
                         h("small",{className:"public-entry-reassurance"},"No password. No card for your first session.")) :
                     h("div",{className:"public-demo-continuation"},
-                        h("small",{role:"status"},"Demo continuation · No email was sent."),
-                        h("a",{id:"free-session-continue",href:"member.html?preview=available",className:"public-gold-button"},"Continue to my free session")))));
+                        h("a",{id:"free-session-continue",onClick:transferDraft,href:"member.html?preview=available",className:"public-gold-button"},"Continue to my free session")))));
     }
 (0,jL.createRoot)(document.getElementById("root")).render(location.search.includes("account-capture")?(0,N.jsx)(GL,{}):(0,N.jsx)(oA,{}));})();
 /*! Bundled license information:
