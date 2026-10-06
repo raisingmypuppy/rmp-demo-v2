@@ -95,6 +95,8 @@
  .public-edition-pair figcaption{margin:0}
 }
 @media(max-width:760px){
+ /* Keep complete membership benefits readable on narrow screens. */
+ .approved-offer .approved-offer-benefits span{white-space:normal}
  .public-brand-line{font-size:6px;letter-spacing:.16em;margin-top:7px}
  .approved-helper .approved-ph-title{font-size:37px}
  .winnie-demo{padding:21px;border-radius:12px;margin-inline:0}

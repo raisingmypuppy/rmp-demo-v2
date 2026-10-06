@@ -10,6 +10,14 @@
   const query=new URLSearchParams(location.search);
   const previewMode=query.get('preview');
   const testing=['available','used','subscribed','returning'].includes(previewMode)||query.get('test')==='1';
+  // Public handoff uses the available fixture without exposing reviewer controls.
+  let incomingDraft=null;
+  if(previewMode==='available'){
+    try{incomingDraft=sessionStorage.getItem('rmp-free-session-draft');sessionStorage.removeItem('rmp-free-session-draft');}catch{ /* Browser storage may be disabled. */ }
+  }
+  const customerEntry=previewMode==='available'&&(incomingDraft!==null||window.history.state?.rmpCustomerEntry===true);
+  if(customerEntry)window.history.replaceState({...window.history.state,rmpCustomerEntry:true},'');
+  const showTesting=testing&&(!customerEntry||query.get('test')==='1');
   const state={dogs:[],active:'guest',membership:'available',draft:'',attachment:'',current:null,origin:null,panel:'',profileMode:'empty',edition:'color',guide:null,inviteDismissed:false,urls:new Set(),photos:new Map()};
   let database=null,saveTimer;
   function mapStored(value,restore=false){
@@ -177,9 +185,9 @@
   }
   function membership(){
     if(state.membership==='available'){lockedFeature('Start with your first question.');return;}
-    state.panel='membership';openPanel(`${back()}<span class="eyebrow">Membership & settings</span><h2 id="dialog-title">${member()?'Help for whatever comes next.':'Continue the conversation.'}</h2><p>Keep talking with the Puppy Helper, create printable guides, save your conversations, and open the complete Puppy Planner.</p><div class="membership-options"><label><input type="radio" name="membership-plan" value="monthly" checked> Monthly<strong>$3.99</strong><small>per month</small></label><label><input type="radio" name="membership-plan" value="annual"> Annual<strong>$30</strong><small>per year</small></label></div><p>Cancel anytime. Digital membership purchases are non-refundable.</p><div class="action-row">${gold(member()?'Membership settings':'Continue with RMP',member()?'settings':'activate')}</div><p class="panel-note">Product preview: this unlocks the member experience without checkout or a charge.</p>`);
+    state.panel='membership';openPanel(`${back()}<span class="eyebrow">Membership & settings</span><h2 id="dialog-title">${member()?'Help for whatever comes next.':'Continue the conversation.'}</h2><p>Keep talking with the Puppy Helper, create printable guides, save your conversations, and open the complete Puppy Planner.</p><div class="membership-options"><label><input type="radio" name="membership-plan" value="monthly" checked> Monthly<strong>$3.99</strong><small>per month</small></label><label><input type="radio" name="membership-plan" value="annual"> Annual<strong>$30</strong><small>per year</small></label></div><p>Cancel anytime. Digital membership purchases are non-refundable.</p><div class="action-row">${gold(member()?'Membership settings':'Continue with RMP',member()?'settings':'activate')}</div>${showTesting?'<p class="panel-note">Product preview: this unlocks the member experience without checkout or a charge.</p>':''}`);
   }
-  function settings(){state.panel='settings';openPanel(`${back()}<span class="eyebrow">Membership settings</span><h2 id="dialog-title">You’re in control.</h2><p>This is a working product preview. Puppy Helper replies are scripted, membership is simulated, and there is no live AI, sign-in or billing.</p><p>Profiles, uploaded photos, conversations and guides ${testing?'are temporary in this testing state':'are stored only in this browser on this device'}. They are not synced to an online account.</p><div class="action-row"><button class="text-link" data-action="membership">View membership</button></div>`);}
+  function settings(){state.panel='settings';openPanel(`${back()}<span class="eyebrow">Membership settings</span><h2 id="dialog-title">You’re in control.</h2>${showTesting?`<p>This is a working product preview. Puppy Helper replies are scripted, membership is simulated, and there is no live AI, sign-in or billing.</p><p>Profiles, uploaded photos, conversations and guides are temporary in this testing state.</p>`:'<p>Cancel anytime. Access continues through your paid period. Digital membership purchases are non-refundable.</p>'}<div class="action-row"><button class="text-link" data-action="membership">View membership</button></div>`);}
   function activate(){
     // A completed free answer is required. This changes demo access, never billing.
     if(state.membership!=='used'){if(!member())lockedFeature('Start with your first question.');return;}
@@ -193,7 +201,7 @@
     window.scrollBy({top:composer.getBoundingClientRect().top-anchorTop,behavior:'instant'});
     $('#helper-question').focus({preventScroll:true});toast('Membership unlocked. Keep talking right here.');
   }
-  function voice(){state.panel='voice';openPanel(`<span class="eyebrow">Voice input preview</span><h2 id="dialog-title">Talk it through.</h2><p>This demo shows how a voice transcript goes into your message. The microphone is not recording.</p><label class="sr-only" for="voice-transcript">Sample voice transcript</label><textarea id="voice-transcript" class="voice-input">${esc(state.draft||'I tried the plan yesterday. Here’s what happened…')}</textarea><div class="action-row">${gold('Use this text','use-voice')}</div>`);}
+  function voice(){state.panel='voice';openPanel(`<span class="eyebrow">Voice input${showTesting?' preview':''}</span><h2 id="dialog-title">Talk it through.</h2><p>${showTesting?'This demo shows how a voice transcript goes into your message. The microphone is not recording.':'Your microphone is not recording. Add or edit the text below to use it in your question.'}</p><label class="sr-only" for="voice-transcript">Your words</label><textarea id="voice-transcript" class="voice-input">${esc(state.draft||(showTesting?'I tried the plan yesterday. Here’s what happened…':''))}</textarea><div class="action-row">${gold('Use this text','use-voice')}</div>`);}
   async function readPhoto(file){
     if(!file)return '';
     if(!['image/jpeg','image/png','image/webp','image/gif'].includes(file.type)||file.size>8*1024*1024){toast('Choose a JPG, PNG, WebP or GIF under 8 MB.');return '';}
@@ -274,7 +282,7 @@
       'source-conversation':()=>{state.current=puppy().history.find(c=>c.id===state.guide.source);closePanel();renderConversation(true);persist();},
       'use-voice':()=>{state.draft=$('#voice-transcript').value.slice(0,3000);closePanel();$('#helper-question').value=state.draft;$('#send-question').disabled=!state.draft.trim()||state.membership==='used';resizeComposer();$('#helper-question').focus();},
       activate,'dismiss-invitation':()=>{state.inviteDismissed=true;$('#membership-invitation').innerHTML=invitation();persist();},'return-to-chat':()=>{closePanel();$('#helper-question').focus();},
-      'preview-cancel':()=>{openPanel(`${back()}<span class="eyebrow">Cancellation preview</span><h2 id="dialog-title">Membership canceled.</h2><p>In the finished product, access would continue through the paid period. No real membership has changed in this demo.</p>`);},
+      'preview-cancel':()=>{if(!showTesting)return;openPanel(`${back()}<span class="eyebrow">Cancellation preview</span><h2 id="dialog-title">Membership canceled.</h2><p>In the finished product, access would continue through the paid period. No real membership has changed in this demo.</p>`);},
       'print-guide':()=>printHTML(`<div class="print-sheet">${guidePaper(state.guide)}</div>`),
       'print-inline-guide':()=>{const g=puppy().guides.find(g=>g.source===state.current?.id);if(g)printHTML(`<div class="print-sheet">${guidePaper(g)}</div>`);},
       'go-page':()=>{const n=Math.max(1,Math.min(planner.editions[state.edition].count,Number($('#document-page').value)||1));$('#document-page').value=n;$('#document-page-'+n).scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});},
@@ -312,7 +320,7 @@
   // Object URLs stay valid when this page is restored from the browser's back/forward cache.
   // The browser releases them when the document is discarded.
   async function initialize(){
-    $('#demo-controls').hidden=!testing;
+    $('#demo-controls').hidden=!showTesting;
     if(testing){
       if(previewMode==='returning'){state.membership='active';resetProfiles('multiple');return;}
       state.membership=previewMode==='subscribed'?'active':'available';
@@ -325,7 +333,7 @@
     }else await restoreMember();
     if(previewMode==='available'){
       // Consume only on the free-session entry; prefilling does not spend the free answer.
-      try{state.draft=sessionStorage.getItem('rmp-free-session-draft')||'';sessionStorage.removeItem('rmp-free-session-draft');}catch{ /* Browser storage may be disabled. */ }
+      state.draft=incomingDraft||'';
     }
     render();if(state.storageUnavailable)toast('Browser storage is unavailable. Your changes will last while this page is open.');
   }

@@ -308,10 +308,10 @@ function FL({
                     children: "Raising My Puppy"
                 }), (0, g.jsxs)("div", {
                     children: [(0, g.jsx)("a", {
-                        href: "/privacy",
+                        href: "https://raisingmypuppy.com/privacy",
                         children: "Privacy"
                     }), (0, g.jsx)("a", {
-                        href: "/terms",
+                        href: "https://raisingmypuppy.com/terms",
                         children: "Terms"
                     }), (0, g.jsx)("button", {
                         onClick: i,
@@ -388,7 +388,7 @@ var ch="Winnie is my 5-month-old female Bernedoodle and I work from home. If I p
         }
         return (0, g.jsxs)("div", {
             className: `winnie-demo ${f?"is-complete":""}`,
-            "aria-label": "Winnie's Puppy Helper demonstration",
+            "aria-label": "Winnie's Puppy Helper example session",
             "data-demo-complete": f,
             children: [(0, g.jsxs)("div", {
                 className: "winnie-demo-top",
@@ -520,7 +520,7 @@ var ch="Winnie is my 5-month-old female Bernedoodle and I work from home. If I p
                     children: "Example session and guide."
                 }), f ? (0, g.jsx)("button", {
                     onClick: b,
-                    children: "Replay demo"
+                    children: "Replay example"
                 }) : (0, g.jsxs)("button", {
                     onClick: y,
                     children: ["See Winnie\u2019s guide "]
